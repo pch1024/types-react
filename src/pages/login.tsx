@@ -70,13 +70,19 @@ const FormEle = props => {
                         size='large'
                         placeholder="Enter your code"
                         prefix={iconEle('key')}
-                        addonAfter={<img height='38px' src="http://101.200.41.205:8080/captcha.php" alt="code"/>}
+                        addonAfter={
+                            <img
+                                height='38px'
+                                src="http://101.200.41.205:8080/captcha.php"
+                                alt="code"
+                            />
+                        }
                     />
                 )}
             </Form.Item>
             <Form.Item>
                 <Button
-                    style={{width:'100%'}}
+                    style={{width: '100%'}}
                     type='primary'
                     size='large'
                     htmlType='submit'
