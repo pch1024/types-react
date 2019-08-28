@@ -4,20 +4,27 @@
 html *,
 html *::after,
 html *::before {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 body {
-    font-family: MicrosoftYaHei, Helvetica, Arial, sans-serif;
-    font-size: 12px;
+  font-family: MicrosoftYaHei, Helvetica, Arial, sans-serif;
+  font-size: 12px;
 }
 
 #app {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  
+  .layout {
     position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+    overflow: auto;
+    width: 100VW;
+    height: 100VH;
+  }
 }
