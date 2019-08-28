@@ -22,7 +22,7 @@
     "not ie <= 10"
   ],
   "dependencies": {
-    "antd": "^3.16.1",
+    "antd": "^3.22.2",
     "core-js": "^3.0.1",
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.24.0",
