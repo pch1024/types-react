@@ -1,31 +1,12 @@
-/**
- * Polyfill
- */
-import 'core-js/features/array/from'; // <- at the top of your entry point
-import 'core-js/features/promise'; // <- at the top of your entry point
-import 'core-js/features/symbol';
-import 'core-js/features/set';
-import 'core-js/features/map';
-import  'moment';
+import './lib/polyfill';
 
-/**
- * import css
- */
-import './app.css';
-
-/**
- * vue
- */
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
 
-import zhCN from 'antd/lib/locale-provider/zh_CN';
-import LocaleProvider from 'antd/lib/locale-provider';
+import { Wrapper } from './pages/wrapper';
+import './style/app.scss';
 
-import { Hello } from './Hello';
-ReactDOM.render(
-  <LocaleProvider locale={zhCN}>
-    <Hello compiler="TypeScript" framework="React" />
-  </LocaleProvider>,
-  document.getElementById('app'),
-);
+import { DatePicker } from 'antd';
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
+
+ReactDOM.render(<Wrapper />, document.getElementById('app'));

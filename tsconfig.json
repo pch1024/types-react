@@ -1,12 +1,27 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "target": "es5",
+    "declaration": false,
+    "moduleResolution": "node",
+    "outDir": "./dist/", 
+    "module": "ESNext",
     "sourceMap": true,
-    "noImplicitAny": true,
-    "module": "commonjs",
-    "lib": ["dom", "es2015"],
-    "jsx": "react"
+    "inlineSources": true,
+    "noImplicitAny": false,
+    "noLib": false,
+    "lib": [
+      "dom",
+      "es2015"
+    ],
+    "jsx": "react",
+    "suppressImplicitAnyIndexErrors": true
   },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "compileOnSave": false,
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
 }

@@ -1,0 +1,24 @@
+/*声明 WebFont*/
+@import './mixin.scss';
+@font-face {
+    font-family: 'ROBOT';
+    src: url('../font/robot.TTF');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html *,
+html *::after,
+html *::before {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: MicrosoftYaHei "Avenir", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased; // 字体抗锯齿
+    -moz-osx-font-smoothing: grayscale; // 字体抗锯齿
+    font-size: 12px;
+}

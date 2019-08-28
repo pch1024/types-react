@@ -1,0 +1,144 @@
+$color1: rgba(127, 36, 239, 1);
+$color2: rgba(179, 85, 233, 1);
+$color3: rgba(211, 77, 121, 1);
+$color4: rgba(194, 67, 77, 1);
+$color5: rgba(247, 153, 55, 1);
+$color6: rgba(251, 193, 46, 1);
+$color7: rgba(212, 223, 90, 1);
+$color8: rgba(40, 190, 115, 1);
+$color9: rgba(120, 195, 197, 1);
+$color10: rgba(3, 174, 235, 1);
+$color11: rgba(81, 139, 233, 1);
+
+$lg:rgba(241, 25, 56, 1);
+$md:rgba(250, 116, 26, 1);
+$sm:rgba(255, 196, 27, 1);
+$safe:rgba(34, 232, 161, 1);
+
+$main:rgba(77, 140, 255, 1);
+
+$w: 1920;
+$h: 1080;
+
+
+@mixin scrollbar() {
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: none;
+    }
+}
+
+@function ratio($item, $main) {
+    @return $item / $main * 100%;
+}
+
+@mixin position($width, $height, $top, $bottom, $left, $right) {
+    position: absolute;
+    z-index: 999;
+
+    @if $top !=false {
+        top: ratio($top, $h);
+    }
+
+    @if $bottom !=false {
+        bottom: ratio($bottom, $h);
+    }
+
+    @if $left !=false {
+        left: ratio($left, $w);
+    }
+
+    @if $right !=false {
+        right: ratio($right, $w);
+    }
+
+    @if $width !=false {
+        width: ratio($width, $w);
+    }
+
+    @if $height !=false {
+        height: ratio($height, $h);
+    }
+
+    @content;
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    background-size: 100% 100%;
+}
+
+
+@mixin box_title {
+    .title {
+        position: absolute;
+        left: 30px;
+        top: 20px;
+        cursor: pointer;
+        z-index: 100;
+        font-size: 18px;
+        color: white;
+        // letter-spacing: 2px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+
+@mixin btns {
+    .btns {
+        z-index: 100;
+        position: absolute;
+        right: 10px;
+        top: 5px;
+
+        span {
+            display: inline-block;
+            width: 80px;
+            height: 32px;
+            font-size: 15px;
+            line-height: 30px;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            cursor: pointer;
+            background-image: linear-gradient(0deg,
+                    rgba(77, 140, 255, 0.1) 0%,
+                    rgba(77, 140, 255, 0.5) 57%,
+                    rgba(77, 140, 255, 1) 100%);
+            border: 0 solid #4d8cff;
+
+            &:first-child {
+                border-top-width: 1px;
+                border-left-width: 1px;
+                border-top-left-radius: 4px;
+                border-bottom-left-radius: 4px;
+                margin-right: 2px;
+            }
+
+            &:last-child {
+                border-top-width: 1px;
+                border-right-width: 1px;
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
+            }
+        }
+
+        span.active {
+            color: rgba(255, 255, 255, 1);
+        }
+    }
+}
+
+@mixin text_overflow {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
