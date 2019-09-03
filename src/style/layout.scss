@@ -16,17 +16,25 @@
 .layout-header {
     height: 64px;
     border-bottom: 1px solid #efefef;
+    text-align: right;
 }
 
 .layout-main {
+    @include scrollbar;
     height: calc(100% - 64px);
     background: #efefef;
+    padding: 20px 20px 0;
     overflow: auto;
+
+    > :first-child {
+        background: white;
+    }
 }
 
 .layout-footer {
     border-bottom: 1px solid #efefef;
     height: 36px;
+    line-height: 36px;
     text-align: center;
     color: gray;
 }
@@ -36,7 +44,6 @@
     padding: 10px;
     border-bottom: 1px solid #efefef;
 
-
     p {
         height: 44px;
         line-height: 44px;
@@ -45,12 +52,11 @@
         font-weight: bold;
         color: #1890ff;
     }
-
 }
 
 .layout-menu {
     @include scrollbar;
     height: calc(100% - 64px);
-    overflow: auto;
-
+    overflow-x: hidden;
+    overflow-y: auto;
 }
