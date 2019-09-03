@@ -19,6 +19,7 @@ export const asyncRoutes = [
     {
         path: '/dashboard',
         component: Home,
+        name: 'Dashboard',
         title: '控制台',
     },
     {

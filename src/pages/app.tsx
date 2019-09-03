@@ -7,7 +7,15 @@ import Layout from './_layout';
 import { routes, asyncRoutes } from './_config';
 
 export default () => {
-    // const [useState, useEffect] = [React.useState, React.useEffect];
+    const [useState, useEffect] = [React.useState, React.useEffect];
+
+    const [activeRouterName, setActiveRouterName] = useState(null);
+
+    function callbackRouter(data) {
+        console.log('callbackRouter', data);
+        let index = asyncRoutes.findIndex(route => route.path === data.location.pathname);
+        if (index !== -1) setActiveRouterName(asyncRoutes[index].name);
+    }
     return (
         <ConfigProvider locale={zhCN}>
             <HashRouter>
@@ -22,12 +30,14 @@ export default () => {
                     />
                 ))}
                 {/*  权限路由 */}
-                <Layout>
+                <Layout activeRouterName={activeRouterName}>
                     {asyncRoutes.map((route, i) => (
                         <Route
                             key={i}
                             path={route.path}
-                            render={props => <route.component {...props} title={route.title} />}
+                            render={props => (
+                                <route.component {...props} title={route.title} callbackRouter={callbackRouter} />
+                            )}
                         />
                     ))}
                 </Layout>
