@@ -10,6 +10,7 @@ export default (props: any) => {
     const iconEle = (name: string) => <Icon type={name} style={{ color: 'rgba(0,0,0,.25)' }} />;
 
     function updateCode(): object {
+
         return {
             backgroundImage: `url(http://101.200.41.205:8080/captcha.php?${+new Date()})`,
         };
@@ -85,7 +86,7 @@ export default (props: any) => {
                                     className='code'
                                     type='link'
                                     onClick={() => setCode(updateCode())}
-                                    style={code}></Button>
+                                    style={code} />
                             }
                         </Col>
                     </Row>

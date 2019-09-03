@@ -1,15 +1,16 @@
 import Register from './register';
-import Home from './home';
+import Dashboard from './dashboard';
 import Login from './login';
+import Report from './report';
 
 export const routes = [
     {
-        path: '/login',
+        path: '/Login',
         component: Login,
         title: '登录页',
     },
     {
-        path: '/register',
+        path: '/Register',
         component: Register,
         title: '注册页',
     },
@@ -17,14 +18,13 @@ export const routes = [
 
 export const asyncRoutes = [
     {
-        path: '/dashboard',
-        component: Home,
-        name: 'Dashboard',
+        path: '/Dashboard',
+        component: Dashboard,
         title: '控制台',
     },
     {
-        path: '/user',
-        component: Home,
-        title: '用户中心',
+        path: '/LingXeReport',
+        component: Report,
+        title: '灵蜥报告',
     },
 ];

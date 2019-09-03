@@ -1,114 +1,114 @@
 export default [
     {
-        key: 'Dashboard',
+        key: '/Dashboard',
         name: '控制中心',
         icon: 'dashboard',
     },
     {
-        key: 'AttackAnalysis',
+        key: '/AttackAnalysis',
         name: '攻击分析',
         icon: 'pie-chart',
         children: [
             {
-                key: 'AttackDetail',
+                key: '/AttackDetail',
                 name: '攻击详情',
             },
             {
-                key: 'AttackType',
+                key: '/AttackType',
                 name: '攻击类型',
             },
             {
-                key: 'AttackFile',
+                key: '/AttackFile',
                 name: '攻击文件',
             },
             {
-                key: 'AttackSource',
+                key: '/AttackSource',
                 name: '攻击来源',
             },
         ],
     },
     {
-        key: 'SuspectFile',
+        key: '/SuspectFile',
         name: '可疑文件',
         icon: 'file-unknown',
     },
     {
-        key: 'PatchManage',
+        key: '/PatchManage',
         name: '补丁管理',
         icon: 'file-protect',
     },
     {
-        key: 'AppManage',
+        key: '/AppManage',
         name: '应用管理',
         icon: 'appstore',
         children: [
             {
-                key: 'AppList',
+                key: '/AppList',
                 name: '应用列表',
             },
             {
-                key: 'AppInfo',
+                key: '/AppInfo',
                 name: '应用信息管理',
             },
         ],
     },
     {
-        key: 'LingXeReport',
+        key: '/LingXeReport',
         name: '灵蜥报告',
         icon: 'fund',
     },
     {
-        key: 'AccountManage',
+        key: '/AccountManage',
         name: '账户管理',
         icon: 'user',
         children: [
             {
-                key: 'AccountSetting',
+                key: '/AccountSetting',
                 name: '个人设置',
                 children: [
                     {
-                        key: 'EditProfile',
+                        key: '/EditProfile',
                         name: '修改资料',
                     },
                     {
-                        key: 'EditPassword',
+                        key: '/EditPassword',
                         name: '修改密码',
                     },
                 ],
             },
             {
-                key: 'LoginLog',
+                key: '/LoginLog',
                 name: '登录记录',
             },
         ],
     },
     {
-        key: 'SystemSetting',
+        key: '/SystemSetting',
         name: '系统设置',
         icon: 'setting',
         children: [
             {
-                key: 'EarlyWarning',
+                key: '/EarlyWarning',
                 name: '预警消息',
                 children: [
                     {
-                        key: 'EmailWaring',
+                        key: '/EmailWaring',
                         name: '邮件预警',
                     },
                     {
-                        key: 'SMSWaring',
+                        key: '/SMSWaring',
                         name: '短信域名',
                     },
                 ],
             },
             {
-                key: 'WhiteList',
+                key: '/WhiteList',
                 name: '白名单',
             },
         ],
     },
     {
-        key: 'InstallService',
+        key: '/InstallService',
         name: '安装服务',
         icon: 'tool',
     },
