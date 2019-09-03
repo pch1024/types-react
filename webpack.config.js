@@ -16,7 +16,7 @@ module.exports = {
     context: dir('src'),
     mode: env,
     devtool: 'source-map',
-    entry: './app.tsx',
+    entry: './main.tsx',
     output: {
         filename: 'js/app.js',
         publicPath: isDev ? '/' : './',

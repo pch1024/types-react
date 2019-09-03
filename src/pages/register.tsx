@@ -1,11 +1,6 @@
 import * as React from 'react';
-import {
-    BrowserRouter as Router,
-    Route,
-    RouteComponentProps,
-} from 'react-router-dom';
 
-export const Register = () => {
-    document.title = 'Register';
+export default props => {
+    document.title = props.title;
     return <div>Register</div>;
 };

@@ -15,16 +15,28 @@ body {
   font-size: 12px;
 }
 
+@mixin noFloat {
+
+  zoom: 1;
+
+  &::after {
+    display: block;
+    visibility: hidden;
+    height: 0;
+    clear: both;
+    content: '';
+  }
+}
+
+.noFloat {
+  @include noFloat;
+}
+
 #app {
+  @include noFloat;
   position: relative;
   overflow: hidden;
   width: 100vw;
   height: 100vh;
-  
-  .layout {
-    position: relative;
-    overflow: auto;
-    width: 100VW;
-    height: 100VH;
-  }
+
 }

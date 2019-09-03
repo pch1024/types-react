@@ -1,19 +1,13 @@
 import * as React from 'react';
-
-import { PageProps } from '../model/model';
 import '../style/home.scss';
 
-export const Home = (props: PageProps) => {
+export default (props: any): React.ReactElement => {
     document.title = props.title;
-    React.useEffect(() => {
-        // setTimeout(() => {
-        //     // JS 路由跳转
-        //     props.history.push('/login');
-        // }, 5000);
-    });
+    // const [useState, useEffect] = [React.useState, React.useEffect];
+    console.log(props);
     return (
         <div className='page_home'>
-            <div className='title'>{props.title}</div>
+            <div className='title'>hi</div>
         </div>
     );
 };

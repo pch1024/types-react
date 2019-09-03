@@ -21,7 +21,7 @@ $w: 1920;
 $h: 1080;
 
 
-@mixin scrollbar() {
+@mixin scrollbar {
     &::-webkit-scrollbar {
         width: 5px;
     }
