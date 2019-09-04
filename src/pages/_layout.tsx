@@ -1,28 +1,17 @@
 import * as React from 'react';
 import '../style/layout.scss';
 
-import {Menu, Icon, Avatar, Select, Dropdown} from 'antd';
+import { Menu, Icon, Avatar, Select, Dropdown } from 'antd';
 // 导航菜单数据
-import menuList from '../model/menuList';
+import menuList from '../lib/menuList';
+// 站点应用数据
+import { appList } from '../lib/mockdata';
 
 export default (props: any): React.ReactElement => {
     console.log('Layout', props);
-    const [useState, useEffect] = [React.useState, React.useEffect];
-    // 菜单收缩状态
-    const [collapsed, setCollapsed] = useState(false);
 
-    // useEffect(() => {
-    //     setActiveRouter(props.activeRouterName);
-    // }, [props.activeRouterName]);
-
-    // 站点应用数据
-    const appList = [];
-    for (let i = 0; i < 30; i++) appList.push({
-        id: `${1000 - i}:app${i}`,
-        name: `app${i}`
-    });
     // 菜单节点嵌套生成器
-    const createMenu = (menuList: any) => {
+    function createMenu(menuList: any): React.ReactElement {
         return menuList.map(menu => {
             if (menu.children && menu.children.length > 0) {
                 return (
@@ -30,7 +19,7 @@ export default (props: any): React.ReactElement => {
                         key={menu.key}
                         title={
                             <span>
-                                {!!menu.icon && <Icon type={menu.icon}/>}
+                                {!!menu.icon && <Icon type={menu.icon} />}
                                 <span>{menu.name}</span>
                             </span>
                         }>
@@ -40,100 +29,76 @@ export default (props: any): React.ReactElement => {
             } else {
                 return (
                     <Menu.Item key={menu.key}>
-                        {/*<Link to={{pathname: menu.key}}>*/}
-                        {!!menu.icon && <Icon type={menu.icon}/>}
+                        {!!menu.icon && <Icon type={menu.icon} />}
                         <span>{menu.name}</span>
-                        {/*</Link>*/}
                     </Menu.Item>
                 );
             }
         });
-    };
-    // 站点应用节点生成器
-    const createAppList = appList => {
-        return appList.map(app => {
-            return <Select.Option key={app.id}>{app.name}</Select.Option>;
-        });
-    };
+    }
 
     // 站点应用切换
     function onAppSelectChange(value) {
-//        console.log(`selected ${value}`);
-    }
-
-    // 导航菜单切换
-    function onClickMenu(e) {
-        props.history.push({pathname: e.key})
+        console.log(`selected ${value}`);
     }
 
     return (
         <>
+            {/* 主屏左侧栏 */}
             <div className='layout-left'>
+                {/* logo */}
                 <div className='layout-logo'>
                     <p>授权系统</p>
                 </div>
+                {/* 导航菜单 */}
                 <div className='layout-menu'>
                     <Menu
-                        style={{border: 'none'}}
-                        selectedKeys={[props.activeRouterName]}
-                        onClick={onClickMenu}
+                        style={{ border: 'none' }}
+                        selectedKeys={[props.location.pathname]}
+                        onClick={e => props.history.push({ pathname: e.key })}
                         defaultOpenKeys={[]}
-                        mode='inline'
-                        inlineCollapsed={collapsed}>
+                        mode='inline'>
                         {createMenu(menuList)}
                     </Menu>
                 </div>
             </div>
+            {/* 主屏 */}
             <div className='layout-right'>
+                {/* 顶部操作栏 */}
                 <div className='layout-header'>
                     <Select
                         showSearch
-                        style={{width: '200px'}}
+                        style={{ width: '200px' }}
                         placeholder='请输入站点应用名称搜索'
                         onChange={onAppSelectChange}
-                        defaultValue={[]}>
-                        {createAppList(appList)}
+                        defaultValue={[appList[0].id]}>
+                        {appList.map(app => (
+                            <Select.Option key={app.id}>{app.name}</Select.Option>
+                        ))}
                     </Select>
                     <Dropdown
                         overlay={
                             <Menu>
-                                <Menu.Item
-                                    style={{textAlign: 'center'}}>修改资料</Menu.Item>
-                                <Menu.Item
-                                    style={{textAlign: 'center'}}>修改密码</Menu.Item>
-                                <Menu.Item
-                                    style={{textAlign: 'center'}}>后台管理</Menu.Item>
-                                <Menu.Item style={{
-                                    textAlign: 'center',
-                                    borderTop: '1px solid #ccc'
-                                }}>
+                                <Menu.Item className='textCenter'>修改资料</Menu.Item>
+                                <Menu.Item className='textCenter'>修改密码</Menu.Item>
+                                <Menu.Item className='textCenter'>后台管理</Menu.Item>
+                                <Menu.Item className='textCenter' style={{ borderTop: '1px solid #ccc' }}>
                                     退出系统
                                 </Menu.Item>
                             </Menu>
                         }>
-                        <a
-                            className='ant-dropdown-link'
-                            href='#'
-                            style={{
-                                border: 'none',
-                                height: '100%',
-                                display: 'inline-block',
-                                padding: '0 15px 0 40px',
-                                lineHeight: '64px',
-                            }}>
-                            <Avatar
-                                src='http://101.200.41.205:8080/images/faceless.png'/>
-                            &nbsp;&nbsp;
-                            <Icon type='down'/>
-                        </a>
+                        <span className='dropdown-link'>
+                            <Avatar style={{ margin: '0 15px' }} src='http://101.200.41.205:8080/images/faceless.png' />
+                            <Icon type='down' />
+                        </span>
                     </Dropdown>
                 </div>
+                {/* 主屏内容区域 */}
                 <div className='layout-main'>
                     {props.children}
+                    {/* 主屏底部栏站点备案信息 */}
                     <div className='layout-footer'>
-                        <small>Copyright © redux.org.cn 2017-2019 all right
-                            reserved，powered by Gitbook
-                        </small>
+                        <small>Copyright © redux.org.cn 2017-2019 all right reserved，powered by Gitbook</small>
                     </div>
                 </div>
             </div>

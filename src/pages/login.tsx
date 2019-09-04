@@ -56,7 +56,7 @@ export default (props: any) => {
             e.preventDefault();
             props.form.validateFields((err: Error, values: Object) => {
                 if (!err) console.log('表单输入值: ', values);
-                goto('replace', '/dashboard');
+                goto('replace', '/Dashboard');
             });
         }
 

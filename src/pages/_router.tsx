@@ -1,7 +1,7 @@
 import Register from './register';
 import Dashboard from './dashboard';
 import Login from './login';
-import Report from './report';
+import LingXeReport from './report';
 
 export const routes = [
     {
@@ -24,7 +24,7 @@ export const asyncRoutes = [
     },
     {
         path: '/LingXeReport',
-        component: Report,
+        component: LingXeReport,
         title: '灵蜥报告',
     },
 ];
