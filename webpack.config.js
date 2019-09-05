@@ -64,7 +64,7 @@ module.exports = {
                 loader: 'file-loader',
                 options: {
                     limit: 10000,
-                    name: 'assets/[name].[hash].[ext]', // 源文件
+                    name: 'assets/[name].[ext]?[hash]', // 源文件
                 },
             },
         ],
@@ -90,14 +90,16 @@ module.exports = {
         ]),
         new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
         new MiniCssExtractPlugin({
-            filename: 'css/app.css',
+            filename: 'css/[name].css',
+            chunkFilename: "[id].css"
         }),
         new HtmlWebpackPlugin({
             hash: true,
             inject: true,
             minify: true,
             title: 'TSX',
-            template: 'index.ejs',
+            template: 'index.ejs', //Name of template in ./src
+            filename: "index.html", //Name of file in ./dist/
             favicon: 'favicon.ico',
         }),
         isDev

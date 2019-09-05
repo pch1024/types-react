@@ -1,4 +1,4 @@
-export default [
+const menuList = [
     {
         key: '/Dashboard',
         name: '控制中心',
@@ -113,3 +113,5 @@ export default [
         icon: 'tool',
     },
 ];
+
+export default menuList;

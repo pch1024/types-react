@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "declaration": false,
+    "strict": true,
+    "target": "esnext",
+    "module": "esnext",
     "moduleResolution": "node",
-    "outDir": "./dist/", 
-    "module": "ESNext",
+    "declaration": false,
+    "outDir": "./dist/",
     "sourceMap": true,
     "inlineSources": true,
     "noImplicitAny": false,
     "noLib": false,
     "lib": [
       "dom",
-      "es2015"
+      "esnext"
     ],
     "jsx": "react",
     "suppressImplicitAnyIndexErrors": true

@@ -41,6 +41,11 @@ export default (props: any): React.ReactElement => {
     function onAppSelectChange(value) {
         console.log(`selected ${value}`);
     }
+    // 点击导航菜单
+    function onClickMenu(e: any): void {
+        console.log('onClickMenu', e);
+        props.history.push({ pathname: e.keyPath.join('') });
+    }
 
     return (
         <>
@@ -55,7 +60,7 @@ export default (props: any): React.ReactElement => {
                     <Menu
                         style={{ border: 'none' }}
                         selectedKeys={[props.location.pathname]}
-                        onClick={e => props.history.push({ pathname: e.key })}
+                        onClick={onClickMenu}
                         defaultOpenKeys={[]}
                         mode='inline'>
                         {createMenu(menuList)}
