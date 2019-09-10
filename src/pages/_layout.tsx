@@ -44,7 +44,8 @@ export default (props: any): React.ReactElement => {
     // 点击导航菜单
     function onClickMenu(e: any): void {
         console.log('onClickMenu', e);
-        props.history.push({ pathname: e.keyPath.join('') });
+        // props.history.push({ pathname: e.keyPath.reverse().join('') });
+        props.history.push({ pathname: e.key });
     }
 
     return (

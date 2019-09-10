@@ -4,6 +4,9 @@ import LingXeReport from './report';
 import NotFound from './404';
 import EmailWaring from './emailWaring';
 
+import * as PropTypes from 'prop-types';
+console.log(typeof EmailWaring);
+
 export const routes = [
     {
         path: '/Login',
@@ -17,7 +20,15 @@ export const routes = [
     },
 ];
 
-export const asyncRoutes = [
+export interface routerT {
+    key: string;
+    name: string;
+    icon?: string;
+    component?: (props: object) => React.ReactElement;
+    children?: routerT[];
+}
+
+export const asyncRoutes: routerT[] = [
     {
         key: '/Dashboard',
         name: '控制中心',

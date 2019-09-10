@@ -6,9 +6,17 @@ import { ConfigProvider } from 'antd';
 import Layout from './_layout';
 import { routes, asyncRoutes } from './_router';
 
-function filterRoute(menu) {
-    const _asyncRoutes: object[] = [];
-    const loop = list => {
+export interface routerT {
+    key: string;
+    name: string;
+    icon?: string;
+    component?: (props: object) => React.ReactElement;
+    children?: routerT[];
+}
+
+function filterRoute(menu: routerT[]) {
+    const _asyncRoutes: routerT[] = [];
+    const loop = (list: routerT[]) => {
         list.forEach(item => {
             if (item.children && item.children.length > 0) {
                 loop(item.children);
@@ -32,12 +40,14 @@ export default (
                 <Route key={i} path={route.path} render={props => <route.component {...props} title={route.title} />} />
             ))}
             {/*  权限路由 */}
-            {asyncRoutes.map((route, i) => (
+            {filterRoute(asyncRoutes).map((route, i) => (
                 <Route
                     key={i}
                     path={route.key}
                     render={props => {
                         document.title = route.name;
+                        console.log(typeof route.component);
+                        console.log(typeof props);
                         return (
                             <Layout {...props}>
                                 <route.component {...props} />
