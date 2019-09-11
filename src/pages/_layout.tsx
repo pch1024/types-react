@@ -1,11 +1,11 @@
 import * as React from 'react';
 import '../style/layout.scss';
 
-import { Menu, Icon, Avatar, Select, Dropdown } from 'antd';
+import {Menu, Icon, Avatar, Select, Dropdown} from 'antd';
 // 导航菜单数据
-import menuList from '../lib/menuList';
+import {menuList, pathList} from './_router';
 // 站点应用数据
-import { appList } from '../lib/mockdata';
+import {appList} from '../lib/mockdata';
 
 export default (props: any): React.ReactElement => {
     console.log('Layout', props);
@@ -19,7 +19,7 @@ export default (props: any): React.ReactElement => {
                         key={menu.key}
                         title={
                             <span>
-                                {!!menu.icon && <Icon type={menu.icon} />}
+                                {!!menu.icon && <Icon type={menu.icon}/>}
                                 <span>{menu.name}</span>
                             </span>
                         }>
@@ -29,7 +29,7 @@ export default (props: any): React.ReactElement => {
             } else {
                 return (
                     <Menu.Item key={menu.key}>
-                        {!!menu.icon && <Icon type={menu.icon} />}
+                        {!!menu.icon && <Icon type={menu.icon}/>}
                         <span>{menu.name}</span>
                     </Menu.Item>
                 );
@@ -41,11 +41,12 @@ export default (props: any): React.ReactElement => {
     function onAppSelectChange(value) {
         console.log(`selected ${value}`);
     }
+
     // 点击导航菜单
     function onClickMenu(e: any): void {
         console.log('onClickMenu', e);
         // props.history.push({ pathname: e.keyPath.reverse().join('') });
-        props.history.push({ pathname: e.key });
+        props.history.push({pathname: e.key});
     }
 
     return (
@@ -59,10 +60,10 @@ export default (props: any): React.ReactElement => {
                 {/* 导航菜单 */}
                 <div className='layout-menu'>
                     <Menu
-                        style={{ border: 'none' }}
+                        style={{border: 'none'}}
                         selectedKeys={[props.location.pathname]}
                         onClick={onClickMenu}
-                        defaultOpenKeys={[]}
+                        defaultOpenKeys={pathList[props.location.pathname]}
                         mode='inline'>
                         {createMenu(menuList)}
                     </Menu>
@@ -74,7 +75,7 @@ export default (props: any): React.ReactElement => {
                 <div className='layout-header'>
                     <Select
                         showSearch
-                        style={{ width: '200px' }}
+                        style={{width: '200px'}}
                         placeholder='请输入站点应用名称搜索'
                         onChange={onAppSelectChange}
                         defaultValue={[appList[0].id]}>
@@ -88,14 +89,14 @@ export default (props: any): React.ReactElement => {
                                 <Menu.Item className='textCenter'>修改资料</Menu.Item>
                                 <Menu.Item className='textCenter'>修改密码</Menu.Item>
                                 <Menu.Item className='textCenter'>后台管理</Menu.Item>
-                                <Menu.Item className='textCenter' style={{ borderTop: '1px solid #ccc' }}>
+                                <Menu.Item className='textCenter' style={{borderTop: '1px solid #ccc'}}>
                                     退出系统
                                 </Menu.Item>
                             </Menu>
                         }>
                         <span className='dropdown-link'>
-                            <Avatar style={{ margin: '0 15px' }} src='http://101.200.41.205:8080/images/faceless.png' />
-                            <Icon type='down' />
+                            <Avatar style={{margin: '0 15px'}} src='http://101.200.41.205:8080/images/faceless.png'/>
+                            <Icon type='down'/>
                         </span>
                     </Dropdown>
                 </div>

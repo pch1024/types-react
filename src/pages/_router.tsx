@@ -4,9 +4,6 @@ import LingXeReport from './report';
 import NotFound from './404';
 import EmailWaring from './emailWaring';
 
-import * as PropTypes from 'prop-types';
-console.log(typeof EmailWaring);
-
 export const routes = [
     {
         path: '/Login',
@@ -20,15 +17,7 @@ export const routes = [
     },
 ];
 
-export interface routerT {
-    key: string;
-    name: string;
-    icon?: string;
-    component?: (props: object) => React.ReactElement;
-    children?: routerT[];
-}
-
-export const asyncRoutes: routerT[] = [
+export const menuList = [
     {
         key: '/Dashboard',
         name: '控制中心',
@@ -160,3 +149,31 @@ export const asyncRoutes: routerT[] = [
         component: NotFound,
     },
 ];
+
+function createAsyncRoutes<T>(menu: T, newArr: T[] = []): T[] {
+    const loop = (list): void => {
+        list.forEach((item): void => {
+            if (item.children && item.children.length > 0) {
+                loop(item.children);
+            } else newArr.push(item);
+        });
+    };
+    loop(menu);
+    return newArr;
+}
+
+function createPathList(list, path = {}): object {
+    const loop = (list, parentPath = []): void => {
+        list.forEach((item): void => {
+            path[item.key] = parentPath.concat(item.key);
+            if (item.children && item.children.length > 0) {
+                loop(item.children, path[item.key]);
+            }
+        });
+    };
+    loop(list);
+    return path;
+}
+
+export const pathList = createPathList(menuList);
+export const asyncRoutes = createAsyncRoutes(menuList);
