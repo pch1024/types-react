@@ -1,27 +1,30 @@
 import * as React from 'react';
 import '../style/login.scss';
-import { Form, Icon, Input, Button, Row, Col, Carousel } from 'antd';
+import {Form, Icon, Input, Button, Row, Col, Carousel} from 'antd';
 
-export default (props: any) => {
+const Login = (props: any): JSX.Element => {
     document.title = props.title;
     console.log(props);
-    const Logo = require('../assets/logo_anbai.png');
+    let Logo: any;
+    Logo = require('../assets/logo_anbai.png');
 
-    const iconEle = (name: string) => <Icon type={name} style={{ color: 'rgba(0,0,0,.25)' }} />;
 
     function updateCode(): object {
-
         return {
             backgroundImage: `url(http://101.200.41.205:8080/captcha.php?${+new Date()})`,
         };
     }
 
-    function goto(type: string, path: string) {
+    function goto(type: string, path: string): void {
         props.history[type](path);
     }
 
-    const FormEle = (props: any) => {
-        const { getFieldDecorator } = props.form;
+    function iconEle(name: string): JSX.Element {
+        return (<Icon type={name} style={{color: 'rgba(0,0,0,.25)'}}/>);
+    }
+
+    function FormEle(props: any): JSX.Element {
+        const {getFieldDecorator} = props.form;
 
         const [code, setCode] = React.useState(updateCode());
 
@@ -54,7 +57,7 @@ export default (props: any) => {
 
         function handleSubmit(e: React.FormEvent): void {
             e.preventDefault();
-            props.form.validateFields((err: Error, values: Object) => {
+            props.form.validateFields((err: Error, values: object): void => {
                 if (!err) console.log('表单输入值: ', values);
                 goto('replace', '/Dashboard');
             });
@@ -64,19 +67,19 @@ export default (props: any) => {
             <Form onSubmit={handleSubmit} className='login-form'>
                 <Form.Item>
                     {getFieldDecorator('username', rule.username)(
-                        <Input size='large' prefix={iconEle('user')} placeholder='手机号或者邮箱' />,
+                        <Input size='large' prefix={iconEle('user')} placeholder='手机号或者邮箱'/>,
                     )}
                 </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('password', rule.password)(
-                        <Input size='large' prefix={iconEle('lock')} type='password' placeholder='账户密码' />,
+                        <Input size='large' prefix={iconEle('lock')} type='password' placeholder='账户密码'/>,
                     )}
                 </Form.Item>
                 <Form.Item>
                     <Row gutter={16}>
                         <Col span={15}>
                             {getFieldDecorator('code', rule.code)(
-                                <Input size='large' placeholder='验证码' prefix={iconEle('key')} />,
+                                <Input size='large' placeholder='验证码' prefix={iconEle('key')}/>,
                             )}
                         </Col>
                         <Col span={9}>
@@ -85,15 +88,15 @@ export default (props: any) => {
                                     size='large'
                                     className='code'
                                     type='link'
-                                    onClick={() => setCode(updateCode())}
-                                    style={code} />
+                                    onClick={(): void => setCode(updateCode())}
+                                    style={code}/>
                             }
                         </Col>
                     </Row>
                 </Form.Item>
                 <Form.Item>
                     <Button
-                        style={{ width: '100%' }}
+                        style={{width: '100%'}}
                         type='primary'
                         size='large'
                         htmlType='submit'
@@ -103,9 +106,9 @@ export default (props: any) => {
                 </Form.Item>
             </Form>
         );
-    };
+    }
 
-    const CarouselEle = () => {
+    function CarouselEle(): JSX.Element {
         const images = [
             {
                 img: 'http://101.200.41.205:8080/images/redesign/1.png',
@@ -132,11 +135,11 @@ export default (props: any) => {
                 dec: '借助云端不断强化的后门分析数据库,可以轻松找出应用中可能存在的安全隐患和后门文件。',
             },
         ];
-        const Items = images.map((item, index) => {
+        const Items = images.map((item, index): JSX.Element => {
             return (
                 <div className='carousel_item' key={index}>
                     <div>
-                        <img src={item.img} alt={item.title} />
+                        <img src={item.img} alt={item.title}/>
                     </div>
                     <h3>{item.title}</h3>
                     <p>{item.dec}</p>
@@ -144,13 +147,15 @@ export default (props: any) => {
             );
         });
         return <Carousel autoplay>{Items}</Carousel>;
-    };
-    const LoginForm = Form.create({ name: 'normal_login' })(FormEle);
+    }
+
+    const LoginForm = Form.create({name: 'normal_login'})(FormEle);
+
     return (
         <div className='login'>
             {/* Logo */}
             <div className='logo'>
-                <img src={Logo} alt='Logo AnBai' />
+                <img src={Logo} alt='Logo AnBai'/>
             </div>
             {/* 登录框 */}
             <div className='content'>
@@ -162,14 +167,16 @@ export default (props: any) => {
                                 <span>用户登录</span>
                             </div>
                             {/* 表单组件 */}
-                            <LoginForm />
+                            <LoginForm/>
                         </div>
                     </Col>
                     <Col lg={15} md={24} sm={24}>
-                        <CarouselEle />
+                        <CarouselEle/>
                     </Col>
                 </Row>
             </div>
         </div>
     );
 };
+
+export default Login;

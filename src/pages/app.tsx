@@ -13,7 +13,10 @@ export default (
             <Route exact path='/' render={(): JSX.Element => <Redirect to={'/Login'}/>}/>
             {/* 无权限路由 */}
             {routes.map((route, i): JSX.Element => (
-                <Route key={i} path={route.path} render={(props): JSX.Element => <route.component {...props} title={route.title}/>}/>
+                <Route
+                    key={i}
+                    path={route.path}
+                    render={(props): JSX.Element => <route.component {...props} title={route.title}/>}/>
             ))}
             {/*  权限路由 */}
             {asyncRoutes.map((route: any, i: number): JSX.Element => (

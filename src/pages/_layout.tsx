@@ -38,7 +38,7 @@ export default (props: any): React.ReactElement => {
     }
 
     // 站点应用切换
-    function onAppSelectChange(value) {
+    function onAppSelectChange(value): void {
         console.log(`selected ${value}`);
     }
 
