@@ -6,7 +6,8 @@ import SiteState from "./siteState";
 import {
     chartEmpty
 } from "../../lib/model";
-import echarts from "echarts";
+
+import Chart from "../chart";
 
 const Index = (props: any): React.ReactElement => {
     // 站点安全状态
@@ -14,7 +15,9 @@ const Index = (props: any): React.ReactElement => {
     // 站点丢失状态
     let [lostSiteState, setLostSiteState] = React.useState(false);
     // 防护监控数据
-    let [protectData, setProtectData] = React.useState(chartEmpty);
+    let [protectData, setProtectData] = React.useState(null);
+    // 防护监控数据 实例
+    let [protectChart] = [null];
 
     let item = {
         icon: require("../../assets/db-icon1.png"),
@@ -36,37 +39,33 @@ const Index = (props: any): React.ReactElement => {
         item, item2, item, item2, item
     ];
 
-    // React.useEffect(() => {
-    //     let eProtect = document.getElementById("protect");
-    //     let myChart = echarts.init(eProtect); // 绘制图表
-    //     myChart.setOption(protectData);
-    //     console.log("myChart");
-    //
-    //     return function cleanup() {
-    //         console.log("cleanup");
-    //         if (eProtect) eProtect.innerHTML = "";
-    //     };
-    // });
-
-    function onClick(): void {
+    function updateChart(): void {
         chartEmpty.title.text = "暂无数据" + (+new Date());
-        setProtectData(chartEmpty);
-        let eProtect = document.getElementById("protect");
-        let myChart = echarts.init(eProtect); // 绘制图表
-        myChart.setOption(protectData);
+        let opts = JSON.parse(JSON.stringify(chartEmpty));
+        setProtectData(opts);
+        // console.log(protectData);
     }
+
+    React.useEffect((): void => {
+        console.log("protectChart", protectChart);
+
+    }, [protectChart]);
 
     return (
         <div className="page dashboard">
             {/*近30天 应用状态*/}
             <SiteState siteStatusList={siteStatusList} siteSafetyState={siteSafetyState} lostSiteState={lostSiteState}/>
             {/*近30天 防护监控*/}
-            <div className="protect">
-                <div id="protect"><Spin /></div>
+            <div className="box protect">
+                <Chart
+                    key="protect"
+                    callback={chart => protectChart = chart}
+                    option={protectData}
+                    style={{width: "100%", height: "400px"}}/>
             </div>
             {/*近30天 攻击类型&威胁等级占比 攻击来源TOP10*/}
             {/*防御日志（默认显示最近的5次攻击信息）*/}
-            <Button onClick={onClick}>点击按钮</Button>
+            <Button onClick={updateChart}>点击按钮</Button>
         </div>
     );
 };
