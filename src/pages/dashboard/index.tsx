@@ -16,6 +16,8 @@ const Index = (props: any): React.ReactElement => {
     let [lostSiteState, setLostSiteState] = React.useState(false);
     // 防护监控数据
     let [protectData, setProtectData] = React.useState(null);
+    // 防护监控数据
+    let [attackTypeData, setAttackTypeData] = React.useState(null);
     // 防护监控数据 实例
     let [protectChart] = [null];
 
@@ -43,7 +45,9 @@ const Index = (props: any): React.ReactElement => {
         chartEmpty.title.text = "暂无数据" + (+new Date());
         let opts = JSON.parse(JSON.stringify(chartEmpty));
         setProtectData(opts);
-        // console.log(protectData);
+        chartEmpty.title.text = "暂无数据2" + (+new Date());
+        opts = JSON.parse(JSON.stringify(chartEmpty));
+        setAttackTypeData(opts);
     }
 
     React.useEffect((): void => {
@@ -59,8 +63,13 @@ const Index = (props: any): React.ReactElement => {
             <div className="box protect">
                 <Chart
                     key="protect"
-                    callback={chart => protectChart = chart}
                     option={protectData}
+                    style={{width: "100%", height: "400px"}}/>
+            </div>
+            <div className="box protect">
+                <Chart
+                    key="attackType"
+                    option={attackTypeData}
                     style={{width: "100%", height: "400px"}}/>
             </div>
             {/*近30天 攻击类型&威胁等级占比 攻击来源TOP10*/}
