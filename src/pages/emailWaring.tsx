@@ -1,11 +1,12 @@
-import * as React from 'react';
+import * as React from "react";
 // import '../style/home.scss';
-import { Button } from 'antd';
+import {Button} from "antd";
 
-export default (props: any): React.ReactElement => {
+const emailWaring = (props: any): React.ReactElement => {
     return (
         <div className='page-report'>
-            <Button onClick={() => props.history.push('/error')}>Go to error</Button>
+            <Button onClick={(): void => props.history.push("/error")}>Go to error</Button>
         </div>
     );
 };
+export default emailWaring;

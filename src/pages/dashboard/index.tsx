@@ -9,15 +9,15 @@ import {
 
 import Chart from "../chart";
 
-const Index = (props: any): React.ReactElement => {
+const Index = (props): React.ReactElement => {
     // 站点安全状态
     let [siteSafetyState, setSiteSafetyState] = React.useState(true);
     // 站点丢失状态
     let [lostSiteState, setLostSiteState] = React.useState(false);
     // 防护监控数据
-    let [protectData, setProtectData] = React.useState(null);
+    let [protectData, setProtectData] = React.useState<object | null>(null);
     // 防护监控数据
-    let [attackTypeData, setAttackTypeData] = React.useState(null);
+    let [attackTypeData, setAttackTypeData] = React.useState<object | null>(null);
     // 防护监控数据 实例
     let [protectChart] = [null];
 
@@ -41,13 +41,14 @@ const Index = (props: any): React.ReactElement => {
         item, item2, item, item2, item
     ];
 
+    const deepClone = (i: object): object => JSON.parse(JSON.stringify(i));
+
     function updateChart(): void {
-        chartEmpty.title.text = "暂无数据" + (+new Date());
-        let opts = JSON.parse(JSON.stringify(chartEmpty));
-        setProtectData(opts);
-        chartEmpty.title.text = "暂无数据2" + (+new Date());
-        opts = JSON.parse(JSON.stringify(chartEmpty));
-        setAttackTypeData(opts);
+        chartEmpty.title.text = "1 暂无数据" + (+new Date());
+        setProtectData(deepClone(chartEmpty));
+
+        chartEmpty.title.text = "2 暂无数据" + (+new Date());
+        setAttackTypeData(deepClone(chartEmpty));
     }
 
     React.useEffect((): void => {
@@ -64,19 +65,22 @@ const Index = (props: any): React.ReactElement => {
                 <Chart
                     key="protect"
                     option={protectData}
+                    onRender={(e): void => protectChart = e}
                     style={{width: "100%", height: "400px"}}/>
             </div>
+            <hr/>
             <div className="box protect">
                 <Chart
                     key="attackType"
+                    className="attackType"
                     option={attackTypeData}
                     style={{width: "100%", height: "400px"}}/>
             </div>
             {/*近30天 攻击类型&威胁等级占比 攻击来源TOP10*/}
             {/*防御日志（默认显示最近的5次攻击信息）*/}
-            <Button onClick={updateChart}>点击按钮</Button>
+            <Button onClick={updateChart}> 异步更新图表数据</Button>
         </div>
     );
 };
-
+Index.propTypes = {};
 export default Index;

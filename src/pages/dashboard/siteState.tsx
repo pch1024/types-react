@@ -1,8 +1,9 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 import {Col, Icon, Row} from "antd";
 
 
-const SiteState = (props: any): React.ReactElement => {
+const SiteState = (props): React.ReactElement => {
 
     return (
         <Row gutter={16} className="siteStatus">
@@ -54,4 +55,9 @@ const SiteState = (props: any): React.ReactElement => {
     );
 };
 
+SiteState.propTypes = {
+    siteStatusList: PropTypes.array,
+    siteSafetyState: PropTypes.bool,
+    lostSiteState: PropTypes.bool
+};
 export default SiteState;
