@@ -1,0 +1,37 @@
+.panel {
+  width: 100%;
+  height: auto;
+  border: 1px solid #DCDFF0;
+  margin-bottom: 20px;
+  background-color: white;
+
+  > .content {
+    overflow: hidden;
+    will-change: height;
+    transition: height 200ms;
+  }
+
+  > .header {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 15px;
+    border-bottom: 1px solid #DCDFF0;
+
+    > .opts {
+      float: right;
+
+      > span, > a {
+        font-size: 14px;
+        padding: 0 5px;
+        color: #AAAAAA;
+        margin-left: 5px;
+
+        &:hover {
+          cursor: pointer;
+          color: #1682DC;
+        }
+      }
+    }
+  }
+}

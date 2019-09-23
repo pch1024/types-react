@@ -2,17 +2,6 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import echarts from "echarts";
 
-/**
- * 参数列表
- * key: string; 唯一值
- * option: object | null; 图表数据
- * style: {
- *      width: string; 图表宽度
- *      height: string; 图表高度
- * };
- * className?: string; 图表CSS样式类名称
- * onRender?(instance): void; 图表回调函数返回图表实例
- */
 
 const Chart = (props): React.ReactElement => {
 
@@ -77,13 +66,18 @@ const Chart = (props): React.ReactElement => {
 };
 
 Chart.propTypes = {
-    key: PropTypes.string.isRequired,
+    // 图表数据
     option: PropTypes.object,
+    // 图表宽高
     style: PropTypes.shape({
+        //图表宽度
         width: PropTypes.string.isRequired,
+        //图表高度
         height: PropTypes.string.isRequired
-    }),
+    }).isRequired,
+    //图表CSS样式类名称
     className: PropTypes.string,
+    //图表回调函数返回图表实例
     onRender: PropTypes.func
 };
 // 导出组件模块
