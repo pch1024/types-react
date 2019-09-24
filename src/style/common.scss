@@ -13,6 +13,7 @@ html *::before {
 body {
   font-family: MicrosoftYaHei, Helvetica, Arial, sans-serif;
   font-size: 12px;
+  overflow: hidden;
 }
 
 @mixin noFloat {

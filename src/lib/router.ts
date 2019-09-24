@@ -1,8 +1,8 @@
-import Dashboard from './dashboard/';
-import Login from './login';
-import LingXeReport from './report';
-import NotFound from './404';
-import EmailWaring from './emailWaring';
+import Dashboard from '@/pages/dashboard';
+import Login from '@/pages/login';
+import LingXeReport from '@/pages/report';
+import NotFound from '@/pages/404';
+import EmailWaring from '@/pages/emailWaring';
 
 export const routes = [
     {
