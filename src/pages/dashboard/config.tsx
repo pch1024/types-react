@@ -3,7 +3,10 @@ import { Tag } from "antd";
 
 const color = [ "magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "purple" ];
 const moreElement = (record): RRE => RCE("a", { href: `/user/${ record.key }` }, "查看更多");
-const tagsElement = (record): [] => record.map((item, index): RRE => RCE(Tag, { color: color[index % 10] }, item));
+const tagsElement = (record): [] => record.map((item, index): RRE => RCE(Tag, {
+    color: color[index % 10],
+    key: index
+}, item));
 
 // 攻击日志表格数据模版
 export const attackLogColumns = [
