@@ -16,9 +16,17 @@ const isDev = env !== "production";
 
 const outputPublicPath = isDev ? "/" : "./";
 const cssLoader = isDev ? "style-loader" : MiniCssExtractPlugin.loader;
+// 打包插件
 const pluginsMode = () => isDev
+    // 模块热更新
     ? new webpack.HotModuleReplacementPlugin()
+    // 构建文件结构分析
     : new BundleAnalyzerPlugin();
+// 重置 Ant Design Less 预设主题变量
+const modifyVars = {
+    "primary-color": "#1DA57A",
+    "border-radius-base": "2px"
+};
 
 
 module.exports = {
@@ -70,10 +78,7 @@ module.exports = {
                     {
                         loader: "less-loader",
                         options: {
-                            modifyVars: {
-                                "primary-color": "#1DA57A",
-                                "border-radius-base": "2px"
-                            },
+                            modifyVars,
                             javascriptEnabled: true
                         }
                     }
