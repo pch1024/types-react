@@ -50,7 +50,7 @@ const Chart = (props): React.ReactElement => {
             window.removeEventListener("resize", resize);
         };
 
-    }, [chartDom, props]);
+    }, [chartDom, props.option]);
 
 
     // 元素挂载到浏览器事件

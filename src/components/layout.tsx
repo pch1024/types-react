@@ -1,9 +1,8 @@
 import * as React from "react";
-
 import * as PropTypes from "prop-types";
-import "../style/layout.scss";
-
 import { Menu, Icon, Avatar, Select, Dropdown } from "antd";
+
+import "@/style/layout.scss";
 // 导航菜单数据
 import { menuList, pathList } from "@/lib/router";
 // 站点应用数据

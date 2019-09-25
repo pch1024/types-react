@@ -29,12 +29,12 @@ module.exports = {
     },
     module: {
         rules: [
-            // {
-            //   enforce: "pre",
-            //   test: /\.(ts|tsx)$/,
-            //   exclude: /node_modules/,
-            //   loader: "eslint-loader"
-            // },
+            /*{
+              enforce: "pre",
+              test: /\.(ts|tsx)$/,
+              exclude: /node_modules/,
+              loader: "eslint-loader"
+            },*/
             {
                 test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
@@ -45,20 +45,39 @@ module.exports = {
                             tsImportPluginFactory({
                                 libraryName: "antd",
                                 libraryDirectory: "lib",
-                                style: "css"
+                                style: true
                             })
                         ]
                     })
                 }
             },
             {
-                test: /\.(c|sc)ss$/,
+                test: /\.less$/,
                 // exclude: /node_modules/,
                 use: [
                     isDev ? "style-loader" : MiniCssExtractPlugin.loader,
                     "css-loader",
-                    "sass-loader",
-                    "postcss-loader"
+                    "postcss-loader",
+                    {
+                        loader: "less-loader",
+                        options: {
+                            modifyVars: {
+                                "primary-color": "#1DA57A",
+                                "border-radius-base": "2px"
+                            },
+                            javascriptEnabled: true
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(c|sc)ss$/,
+                exclude: /node_modules/,
+                use: [
+                    isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    "postcss-loader",
+                    "sass-loader"
                 ]
             },
             {
@@ -92,8 +111,8 @@ module.exports = {
         ]),
         new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
         new MiniCssExtractPlugin({
-            filename: "css/[name].css",
-            chunkFilename: "[id].css"
+            filename: "css/[name].[hash].css",
+            chunkFilename: "[id].[hash].css"
         }),
         new HtmlWebpackPlugin({
             hash: true,

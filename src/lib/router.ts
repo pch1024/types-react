@@ -3,6 +3,7 @@ import Login from '@/pages/login';
 import LingXeReport from '@/pages/report';
 import NotFound from '@/pages/404';
 import EmailWaring from '@/pages/emailWaring';
+import AttackDetail from "@/pages/attackAnalysis/attackDetail";
 
 export const routes = [
     {
@@ -32,7 +33,7 @@ export const menuList = [
             {
                 key: '/AttackDetail',
                 name: '攻击详情',
-                component: NotFound,
+                component: AttackDetail,
             },
             {
                 key: '/AttackType',

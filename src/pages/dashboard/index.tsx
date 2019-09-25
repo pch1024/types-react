@@ -38,20 +38,21 @@ function Index(): React.ReactElement {
         setAttackTypeData(deepClone(chartEmpty));
     }
 
-    // 异步请求
-    function asyncAjax(): void {
-        // 存在历史攻击？true:false
-        setSiteSafetyState(false);
-        // 当前站点探针丢失？true:false
-        setLostSiteState(false);
-        // 站点状态数据
-        setSiteState(siteStatusList);
-        // 模拟异步更新图表
-        updateChart();
-    }
 
     // 挂载到浏览器事件
     React.useEffect((): void => {
+        // 异步请求
+        function asyncAjax(): void {
+            // 存在历史攻击？true:false
+            setSiteSafetyState(false);
+            // 当前站点探针丢失？true:false
+            setLostSiteState(false);
+            // 站点状态数据
+            setSiteState(siteStatusList);
+            // 模拟异步更新图表
+            updateChart();
+        }
+
         setTimeout(asyncAjax, 1000);
         console.log("protectChart", protectChart);
     }, [ protectChart ]);

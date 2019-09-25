@@ -1,7 +1,7 @@
 import "@/lib/polyfill";
 import "@/lib/moment";
-
-import "antd/dist/antd.css";
+// Ant Design UI
+// import "antd/dist/antd.less";
 import "@/style/common.scss";
 
 import APP from "@/pages/app";
