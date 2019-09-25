@@ -8,22 +8,31 @@ const tsImportPluginFactory = require("ts-import-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
     .BundleAnalyzerPlugin;
 
-const dir = name => path.join(__dirname, name);
+const srcPath = path.join(__dirname, "src");
+const distPath = path.join(__dirname, "dist");
+
 const env = process.env.NODE_ENV;
 const isDev = env !== "production";
 
+const outputPublicPath = isDev ? "/" : "./";
+const cssLoader = isDev ? "style-loader" : MiniCssExtractPlugin.loader;
+const pluginsMode = () => isDev
+    ? new webpack.HotModuleReplacementPlugin()
+    : new BundleAnalyzerPlugin();
+
+
 module.exports = {
-    context: dir("src"),
+    context: srcPath,
     mode: env,
     devtool: "source-map",
     entry: "./main.tsx",
     output: {
-        filename: "js/app.js",
-        publicPath: isDev ? "/" : "./"
+        filename: "js/app.[hash].js",
+        publicPath: outputPublicPath
     },
     resolve: {
         alias: {
-            "@": path.resolve(__dirname, "src/")
+            "@": srcPath
         },
         extensions: [".ts", ".tsx", ".js"]
     },
@@ -55,7 +64,7 @@ module.exports = {
                 test: /\.less$/,
                 // exclude: /node_modules/,
                 use: [
-                    isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+                    cssLoader,
                     "css-loader",
                     "postcss-loader",
                     {
@@ -74,7 +83,7 @@ module.exports = {
                 test: /\.(c|sc)ss$/,
                 exclude: /node_modules/,
                 use: [
-                    isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+                    cssLoader,
                     "css-loader",
                     "postcss-loader",
                     "sass-loader"
@@ -92,7 +101,7 @@ module.exports = {
     },
     devServer: {
         historyApiFallback: true,
-        contentBase: dir("dist"),
+        contentBase: distPath,
         compress: true,
         hot: true,
         open: true,
@@ -104,11 +113,7 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new CopyWebpackPlugin([
-            {
-                from: "static"
-            }
-        ]),
+        new CopyWebpackPlugin([{from: "static"}]),
         new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
         new MiniCssExtractPlugin({
             filename: "css/[name].[hash].css",
@@ -123,8 +128,6 @@ module.exports = {
             filename: "index.html", //Name of file in ./dist/
             favicon: "favicon.ico"
         }),
-        isDev
-            ? new webpack.HotModuleReplacementPlugin()
-            : new BundleAnalyzerPlugin()
+        pluginsMode()
     ]
 };
