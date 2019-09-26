@@ -1,10 +1,20 @@
 import * as React from "react";
-import { ReactElement as RRE } from "react";
+import { ReactElement as RRE, createElement as RCE } from "react";
 import { DatePicker, Select, Input, Divider, Button, Radio, Icon } from "antd";
 import "@/style/attackDetail.scss";
+import { AttackType, getAttackType } from "@/lib/mockdata";
 
-function AttackDetail(props): RRE {
-    console.log("AttackDetail props", props);
+// 攻击类型
+interface T {
+    level: string;
+    typeList: {
+        attack_type_id?: string;
+        attack_type_name?: string;
+    }[];
+}
+
+function AttackDetail(): RRE {
+    console.log("AttackDetail props");
     let [ searchData, setSearchData ] = React.useState({
         time: "90",
         startTime: "",
@@ -13,9 +23,21 @@ function AttackDetail(props): RRE {
         attackLevel: null
     });
 
-    function onChange(date, dateString) {
+
+    let [ levelAndType, setLevelAndType ] = React.useState<T[] | null>(null);
+
+    function onChange(date, dateString): void {
         console.log(date, dateString);
     }
+
+    React.useEffect((): void => {
+        function asyncAPI(): void {
+            setLevelAndType(getAttackType(AttackType.data));
+        }
+
+        setTimeout(asyncAPI, 1000);
+    }, [ levelAndType ]);
+
 
     return (
         <div className="attackDetail">
@@ -36,19 +58,20 @@ function AttackDetail(props): RRE {
                 </Radio.Group>
                 <Divider type="vertical"/>
                 <Select
-                    style={ { width: 120 } }
+                    style={ { width: 180 } }
                     placeholder="攻击类型"
                     onChange={ onChange }>
-                    <Select.OptGroup label="高危攻击">
-                        <Select.Option value="jack">Jack</Select.Option>
-                        <Select.Option value="lucy">Lucy</Select.Option>
-                    </Select.OptGroup>
-                    <Select.OptGroup label="中危攻击">
-                        <Select.Option value="Yiminghe">yiminghe</Select.Option>
-                    </Select.OptGroup>
-                    <Select.OptGroup label="低危攻击">
-                        <Select.Option value="Yiminghe">yiminghe</Select.Option>
-                    </Select.OptGroup>
+                    {
+                        levelAndType &&
+                        levelAndType.map((item, index): RRE => {
+                            let children = item.typeList.map((item, index): RRE => {
+                                return <Select.Option
+                                    key={ index }
+                                    value={ item.attack_type_id }>{ item.attack_type_name}</Select.Option>;
+                            });
+                            return <Select.OptGroup key={ index } label={ item.level }>{ children }</Select.OptGroup>;
+                        })
+                    }
                 </Select>
                 <Divider type="vertical"/>
                 <Input style={ { width: 150 } } placeholder="受攻击文件路径" suffix={ <Icon type="search"/> }/>
@@ -65,4 +88,5 @@ function AttackDetail(props): RRE {
 
 }
 
+AttackDetail.propTypes = {};
 export default AttackDetail;

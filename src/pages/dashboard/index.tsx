@@ -14,6 +14,7 @@ import {
 } from "./config";
 
 function Index(): React.ReactElement {
+    console.log("Index");
     // 站点安全状态
     let [ siteSafetyState, setSiteSafetyState ] = React.useState(true);
     // 站点丢失状态
@@ -40,8 +41,7 @@ function Index(): React.ReactElement {
 
 
     // 挂载到浏览器事件
-    React.useEffect((): void => {
-        // 异步请求
+    React.useEffect((): void => {  // 异步请求
         function asyncAjax(): void {
             // 存在历史攻击？true:false
             setSiteSafetyState(false);
@@ -55,7 +55,7 @@ function Index(): React.ReactElement {
 
         setTimeout(asyncAjax, 1000);
         console.log("protectChart", protectChart);
-    }, [ protectChart ]);
+    }, [ siteSafetyState, lostSiteState, siteState, protectChart ]);
 
 
     return (

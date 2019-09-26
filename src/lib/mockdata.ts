@@ -1,5 +1,7 @@
 // 站点应用数据
 
+import { type } from "os";
+
 interface AppT {
     id: string;
     name: string;
@@ -122,5 +124,36 @@ export const AttackType = {
     "valid": true
 };
 
+interface AttackTypes {
+    attack_level: string;
+    attack_type_id: number;
+    attack_type_name: string;
+}
+
+interface T {
+    level: string;
+    typeList: object[];
+}
+
+export function getAttackType(arr: AttackTypes[]): T[] {
+
+    let levelAndType: T[] = [ {
+        typeList: [],
+        level: "高危攻击"
+    }, {
+        typeList: [],
+        level: "中危攻击"
+    }, {
+        typeList: [],
+        level: "低危攻击"
+    } ];
+
+    arr.forEach((i: AttackTypes): void => {
+        if (i.attack_level === "high") levelAndType[0].typeList.push(i);
+        if (i.attack_level === "medium") levelAndType[1].typeList.push(i);
+        if (i.attack_level === "low") levelAndType[2].typeList.push(i);
+    });
+    return levelAndType;
+}
 
 export default { appList: _appList() };
