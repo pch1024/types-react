@@ -1,18 +1,17 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 import echarts from "echarts";
+import { useRef, createElement, ReactElement, useMemo } from "react";
 
 
-const Chart = (props): React.ReactElement => {
+const Chart = (props): ReactElement => {
 
     // 挂载节点
-    let chartDom = null;
+    const chartDom = useRef(null);
 
     // 生命钩子函数
     type Callback = () => void;
     React.useEffect((): Callback => {
-        console.log("useEffect");
-
         // 加载状态
         function showLoading(instance): void {
             instance.showLoading("default", {
@@ -25,7 +24,7 @@ const Chart = (props): React.ReactElement => {
         }
 
         // 获取实例对象
-        let instance = echarts.getInstanceByDom(chartDom) || echarts.init(chartDom);
+        let instance = echarts.getInstanceByDom(chartDom.current) || echarts.init(chartDom.current);
 
         // 大小自适应
         const resize = (): void => instance.resize();
@@ -50,19 +49,16 @@ const Chart = (props): React.ReactElement => {
             window.removeEventListener("resize", resize);
         };
 
-    }, [chartDom, props.option]);
-
-
-    // 元素挂载到浏览器事件
-    const refOnRender = (el): void => chartDom = el;
+    }, [chartDom, props, props.option]);
 
     // 返回组件
-    return React.createElement("div", {
-        ref: refOnRender,
-        style: props.style,
-        className: props.className
-    });
-
+    return useMemo((): ReactElement =>
+        createElement("div", {
+            ref: chartDom,
+            style: props.style,
+            className: props.className
+        }), [ props.style, props.className ]
+    );
 };
 
 Chart.propTypes = {

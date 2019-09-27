@@ -11,7 +11,7 @@ const Login = (props: any): JSX.Element => {
 
     function updateCode(): object {
         return {
-            backgroundImage: `url(http://101.200.41.205:8080/captcha.php?${+new Date()})`
+            backgroundImage: `url(${window["baseURL"]}/captcha.php?${+new Date()})`
         };
     }
 

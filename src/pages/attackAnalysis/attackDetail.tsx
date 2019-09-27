@@ -1,8 +1,9 @@
 import * as React from "react";
-import { ReactElement as RRE, createElement as RCE } from "react";
+import { useEffect, useState, ReactElement, createElement } from "react";
 import { DatePicker, Select, Input, Divider, Button, Radio, Icon } from "antd";
 import "@/style/attackDetail.scss";
-import { AttackType, getAttackType } from "@/lib/mockdata";
+import { AttackType } from "@/lib/mockdata";
+import * as PropTypes from "prop-types";
 
 // 攻击类型
 interface T {
@@ -13,9 +14,10 @@ interface T {
     }[];
 }
 
-function AttackDetail(): RRE {
+const AttackDetail = (): ReactElement => {
     console.log("AttackDetail props");
-    let [ searchData, setSearchData ] = React.useState({
+    // 检索项
+    let [ searchData, setSearchData ] = useState({
         time: "90",
         startTime: "",
         endTime: "",
@@ -23,26 +25,28 @@ function AttackDetail(): RRE {
         attackLevel: null
     });
 
-
-    let [ levelAndType, setLevelAndType ] = React.useState<T[] | null>(null);
+    // 攻击类型
+    let [ levelAndType, setLevelAndType ] = useState<any>([]);
 
     function onChange(date, dateString): void {
         console.log(date, dateString);
     }
 
-    React.useEffect((): void => {
+    useEffect((): void => {
         function asyncAPI(): void {
-            setLevelAndType(getAttackType(AttackType.data));
+            setLevelAndType(AttackType.data);
         }
 
         setTimeout(asyncAPI, 1000);
     }, [ levelAndType ]);
 
-
-    return (
+    return React.useMemo((): ReactElement => (
         <div className="attackDetail">
             <div className="option">
+                {/* 攻击时间*/ }
                 <span>时间：</span>
+                <DatePicker.RangePicker style={ { width: 240 } } onChange={ onChange }/>
+                <Divider type="vertical"/>
                 <Radio.Group value={ searchData.time } buttonStyle="solid">
                     <Radio.Button value="30">30天</Radio.Button>
                     <Radio.Button value="90">90天</Radio.Button>
@@ -50,6 +54,7 @@ function AttackDetail(): RRE {
                 </Radio.Group>
                 {/*<DatePicker.RangePicker style={ { width: 240 } } onChange={ onChange }/>*/ }
                 <Divider type="vertical"/>
+                {/* 攻击等级*/ }
                 <span>攻击等级：</span>
                 <Radio.Group value={ searchData.attackLevel } buttonStyle="solid">
                     <Radio.Button value="high">高危</Radio.Button>
@@ -57,23 +62,18 @@ function AttackDetail(): RRE {
                     <Radio.Button value="low">低危</Radio.Button>
                 </Radio.Group>
                 <Divider type="vertical"/>
+                {/* 攻击类型*/ }
                 <Select
                     style={ { width: 180 } }
                     placeholder="攻击类型"
                     onChange={ onChange }>
-                    {
-                        levelAndType &&
-                        levelAndType.map((item, index): RRE => {
-                            let children = item.typeList.map((item, index): RRE => {
-                                return <Select.Option
-                                    key={ index }
-                                    value={ item.attack_type_id }>{ item.attack_type_name}</Select.Option>;
-                            });
-                            return <Select.OptGroup key={ index } label={ item.level }>{ children }</Select.OptGroup>;
-                        })
-                    }
+                    { levelAndType.map((item, i): ReactElement => createElement(Select.Option, {
+                        key: i,
+                        value: item.attack_type_id
+                    }, item.attack_type_name)) }
                 </Select>
                 <Divider type="vertical"/>
+                {/* 受攻击文件路径*/ }
                 <Input style={ { width: 150 } } placeholder="受攻击文件路径" suffix={ <Icon type="search"/> }/>
                 {/*<Divider type="vertical"/>*/ }
                 {/*<Button icon="search">搜索</Button>*/ }
@@ -81,12 +81,12 @@ function AttackDetail(): RRE {
                 <Button icon="download" type="primary" style={ { float: "right" } }>报表下载</Button>
             </div>
             <div className="tableBox">
-
+                数据表格
             </div>
         </div>
-    );
+    ), [ searchData, levelAndType ]);
 
-}
+};
 
 AttackDetail.propTypes = {};
 export default AttackDetail;

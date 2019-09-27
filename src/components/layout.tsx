@@ -100,7 +100,7 @@ function Layout(props): React.ReactElement {
                         <span className="dropdown-link">
                             <Avatar
                                 style={ { margin: "0 15px" } }
-                                src="http://101.200.41.205:8080/images/faceless.png"/>
+                                src={ `${ window["baseURL"] }/images/faceless.png` }/>
                             <Icon type="down"/>
                         </span>
                     </Dropdown>
