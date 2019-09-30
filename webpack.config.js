@@ -24,7 +24,7 @@ const pluginsMode = () => isDev
     : new BundleAnalyzerPlugin();
 // 重置 Ant Design Less 预设主题变量
 const modifyVars = {
-    "primary-color": "#1DA57A",
+    // "primary-color": "#1DA57A",
     "border-radius-base": "2px"
 };
 

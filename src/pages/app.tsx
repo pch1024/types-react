@@ -28,7 +28,7 @@ export default (
                         document.title = route.name;
                         let child = createElement(route.component, { ...props });
                         // @ts-ignore
-                        return RCE(Layout, { ...props }, child);
+                        return createElement(Layout, { ...props }, child);
                     } }
                 />
             )) }
