@@ -1,8 +1,28 @@
-.attackDetail{
-
-  .option{
-    padding: 20px 15px;
+.attackDetail {
+  padding: 24px 32px 24px;
+  background: white;
+  
+  .option {
+    position: relative;
+    padding-bottom: 24px;
     background-color: white;
-    margin: -20px -20px 0;
+  }
+  
+  .tableBox {
+  }
+  
+  .tagBr {
+    display: none;
+    @media screen and (max-width: 1460px) {
+      display: block;
+    }
+  }
+}
+
+.commonPagination {
+  text-align: right;
+  
+  .ant-pagination-total-text {
+    float: left;
   }
 }

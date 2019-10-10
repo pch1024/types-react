@@ -1,6 +1,5 @@
 // 站点应用数据
-
-import { type } from "os";
+import { attackDetailsTableDataType } from "@/lib/model";
 
 interface AppT {
     id: string;
@@ -123,4 +122,23 @@ export const AttackType = {
         } ],
     "valid": true
 };
+
 export default { appList: _appList() };
+
+
+
+const _attackDetailsTableData: attackDetailsTableDataType[] = [];
+
+for (let i = 0; i < 10; i++) {
+    _attackDetailsTableData.push({
+        key: "" + i,
+        id: i,
+        time: +new Date() + i,
+        attackAddress: "/test/index.js",
+        attackType: "xss",
+        attackOrigin: "北京",
+        attackLevel: "low"
+    });
+}
+
+export const attackDetailsTableData = _attackDetailsTableData;

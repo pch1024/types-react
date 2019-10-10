@@ -17,9 +17,9 @@ body {
 }
 
 @mixin noFloat {
-
+  
   zoom: 1;
-
+  
   &::after {
     display: block;
     visibility: hidden;

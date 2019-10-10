@@ -4,6 +4,7 @@ import LingXeReport from "@/pages/report";
 import NotFound from "@/pages/404";
 import EmailWaring from "@/pages/emailWaring";
 import AttackDetail from "@/pages/attackAnalysis/attackDetail";
+import AttackList from "@/pages/attackAnalysis/attackList";
 import { ReactElement } from "react";
 
 export const routes = [
@@ -33,8 +34,15 @@ export const menuList = [
         children: [
             {
                 key: "/AttackDetail",
-                name: "攻击详情",
+                name: "攻击列表",
                 component: AttackDetail
+            },
+            {
+                hidden:true,
+                key: "/AttackList/:id",
+                name: "攻击详情",
+//                component: () => import("@/pages/attackAnalysis/attackList")
+                component: AttackList
             },
             {
                 key: "/AttackType",
@@ -191,3 +199,19 @@ function createPathList(list, path = {}): object {
 export const pathList = createPathList(menuList);
 
 export const asyncRoutes: any[] = createAsyncRoutes(menuList);
+
+function getPathToName(menu) {
+    const obj = {};
+    const loop = (list): void => {
+        list.forEach((item): void => {
+            obj[item.key] = item.name;
+            if (item.children && item.children.length > 0) {
+                loop(item.children);
+            }
+        });
+    };
+    loop(menu);
+    return obj;
+}
+
+export const pathToName = getPathToName(menuList);

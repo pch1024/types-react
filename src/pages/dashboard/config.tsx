@@ -1,9 +1,9 @@
-import { ReactElement as RRE, createElement as RCE } from "react";
+import { ReactElement, createElement } from "react";
 import { Tag } from "antd";
 
 const color = [ "magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "purple" ];
-const moreElement = (record): RRE => RCE("a", { href: `/user/${ record.key }` }, "查看更多");
-const tagsElement = (record): [] => record.map((item, index): RRE => RCE(Tag, {
+const moreElement = (record): ReactElement => createElement("a", { href: `/user/${ record.key }` }, "查看更多");
+const tagsElement = (record): [] => record.map((item, index): ReactElement => createElement(Tag, {
     color: color[index % 10],
     key: index
 }, item));

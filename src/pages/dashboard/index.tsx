@@ -1,4 +1,10 @@
 import * as React from "react";
+import {
+    ReactElement,
+    useState,
+    useRef,
+    useCallback, useEffect
+} from "react";
 import { Row, Col, Table } from "antd";
 
 import "@/style/dashboard.scss";
@@ -13,49 +19,48 @@ import {
     siteStatusList
 } from "./config";
 
-function Index(): React.ReactElement {
+function Index(): ReactElement {
     console.log("Index");
     // 站点安全状态
-    let [ siteSafetyState, setSiteSafetyState ] = React.useState(true);
+    let [siteSafetyState, setSiteSafetyState] = useState(true);
     // 站点丢失状态
-    let [ lostSiteState, setLostSiteState ] = React.useState(true);
+    let [lostSiteState, setLostSiteState] = useState(true);
     // 防护监控数据
-    let [ protectData, setProtectData ] = React.useState<object | null>(null);
+    let [protectData, setProtectData] = useState<object | null>(null);
     // 防护监控数据
-    let [ attackTypeData, setAttackTypeData ] = React.useState<object | null>(null);
+    let [attackTypeData, setAttackTypeData] = useState<object | null>(null);
     // 防护监控数据 实例
-    let [ protectChart ] = [ null ];
+    let protectChart = useRef();
     // 站点状态数据
-    let [ siteState, setSiteState ] = React.useState<object[] | null>(null);
+    let [siteState, setSiteState] = useState<object[] | null>(null);
 
     // 模拟异步更新图表
-    function updateChart(): void {
+    const updateChart = useCallback(() => {
         const deepClone = (i: object): object => JSON.parse(JSON.stringify(i));
-
         chartEmpty.title.text = "1 暂无数据" + (+new Date());
         setProtectData(deepClone(chartEmpty));
-
         chartEmpty.title.text = "2 暂无数据" + (+new Date());
         setAttackTypeData(deepClone(chartEmpty));
-    }
+    }, []);
+
+    // 异步请求
+    const asyncAjax = useCallback(() => {
+        // 存在历史攻击？true:false
+        setSiteSafetyState(false);
+        // 当前站点探针丢失？true:false
+        setLostSiteState(false);
+        // 站点状态数据
+        setSiteState(siteStatusList);
+        // 模拟异步更新图表
+        updateChart();
+    }, []);
 
 
     // 挂载到浏览器事件
-    React.useEffect((): void => {  // 异步请求
-        function asyncAjax(): void {
-            // 存在历史攻击？true:false
-            setSiteSafetyState(false);
-            // 当前站点探针丢失？true:false
-            setLostSiteState(false);
-            // 站点状态数据
-            setSiteState(siteStatusList);
-            // 模拟异步更新图表
-            updateChart();
-        }
-
-        setTimeout(asyncAjax, 1000);
+    useEffect((): void => {
+        setTimeout(asyncAjax, 200);
         console.log("protectChart", protectChart);
-    }, [ siteSafetyState, lostSiteState, siteState, protectChart ]);
+    }, []);
 
 
     return (
@@ -75,12 +80,13 @@ function Index(): React.ReactElement {
                 <Chart
                     key="protect"
                     option={ protectData }
-                    onRender={ (e): void => protectChart = e }
+                    onRender={ (e): void => protectChart.current = e }
                     style={ { width: "100%", height: "400px" } }/>
             </Panel>
             {/*近30天 攻击类型&威胁等级占比 攻击来源TOP10*/ }
             <Row gutter={ 20 }>
-                <Col md={ 24 } lg={ 12 }>
+                <Col md={ 24 }
+                     lg={ 12 }>
                     <Panel
                         title="攻击类型与威胁等级占比"
                         moreLink="/report"
@@ -93,7 +99,8 @@ function Index(): React.ReactElement {
                             style={ { width: "100%", height: "400px" } }/>
                     </Panel>
                 </Col>
-                <Col md={ 24 } lg={ 12 }>
+                <Col md={ 24 }
+                     lg={ 12 }>
                     <Panel
                         title="攻击来源 TOP10"
                         moreLink="/report"
@@ -108,7 +115,9 @@ function Index(): React.ReactElement {
                 </Col>
             </Row>
             {/*防御日志（默认显示最近的5次攻击信息）*/ }
-            <Panel title="攻击来源 TOP10" moreLink="/report" className="attackLogContent">
+            <Panel title="攻击来源 TOP10"
+                   moreLink="/report"
+                   className="attackLogContent">
                 <Table
                     className="attackLog"
                     size="small"

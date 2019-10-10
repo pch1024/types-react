@@ -11,18 +11,22 @@ export default (
     <ConfigProvider locale={ zhCN }>
         <HashRouter>
             {/* 根路由 exact 完全匹配 */ }
-            <Route exact path="/" render={ (): ReactElement => <Redirect to={ "/Login" }/> }/>
+            <Route exact
+                   path="/"
+                   render={ (): ReactElement => <Redirect to={ "/Login" }/> }/>
             {/* 无权限路由 */ }
             { routes.map((route, i): ReactElement => (
                 <Route
                     key={ i }
                     path={ route.path }
-                    render={ (props): ReactElement => <route.component { ...props } title={ route.title }/> }/>
+                    render={ (props): ReactElement =>
+                        <route.component { ...props } title={ route.title }/> }/>
             )) }
             {/*  权限路由 */ }
             { asyncRoutes.map((route, i): ReactElement => (
                 <Route
                     key={ i }
+                    strict
                     path={ route.key }
                     render={ (props): ReactElement => {
                         document.title = route.name;
