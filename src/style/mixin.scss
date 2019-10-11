@@ -21,13 +21,13 @@ $w: 1920;
 $h: 1080;
 
 
-@mixin scrollbar {
+@mixin scrollbar($color) {
     &::-webkit-scrollbar {
         width: 5px;
     }
 
     &::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.1);
+        background: $color;
         border-radius: 4px;
     }
 

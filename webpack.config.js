@@ -15,13 +15,14 @@ const env = process.env.NODE_ENV;
 const isDev = env !== "production";
 
 const outputPublicPath = isDev ? "/" : "./";
-const cssLoader = isDev ? "style-loader" : MiniCssExtractPlugin.loader;
+const cssLoader = isDev ? "style-loader" : {
+    loader: MiniCssExtractPlugin.loader,
+    options: {
+        publicPath: "../"
+    }
+};
 // 打包插件
-const pluginsMode = () => isDev
-    // 模块热更新
-    ? new webpack.HotModuleReplacementPlugin()
-    // 构建文件结构分析
-    : new BundleAnalyzerPlugin();
+const pluginsMode = () => isDev ? [] : [ new BundleAnalyzerPlugin() ];
 // 重置 Ant Design Less 预设主题变量
 const modifyVars = {
     // "primary-color": "#1DA57A",
@@ -42,22 +43,22 @@ module.exports = {
         alias: {
             "@": srcPath
         },
-        extensions: [".ts", ".tsx", ".js"]
+        extensions: [ ".ts", ".tsx", ".js" ]
     },
     module: {
         rules: [
             /*{
-              enforce: "pre",
-              test: /\.(ts|tsx)$/,
-              exclude: /node_modules/,
-              loader: "eslint-loader"
-            },*/
+             enforce: "pre",
+             test: /\.(ts|tsx)$/,
+             exclude: /node_modules/,
+             loader: "eslint-loader"
+             },*/
             {
                 test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
                 loader: "awesome-typescript-loader",
                 options: {
-                    getCustomTransformers: () => ({
+                    getCustomTransformers: () => ( {
                         before: [
                             tsImportPluginFactory({
                                 libraryName: "antd",
@@ -65,7 +66,7 @@ module.exports = {
                                 style: true
                             })
                         ]
-                    })
+                    } )
                 }
             },
             {
@@ -85,7 +86,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(c|sc)ss$/,
+                test: /\.(css|scss)$/,
                 exclude: /node_modules/,
                 use: [
                     cssLoader,
@@ -107,7 +108,6 @@ module.exports = {
     devServer: {
         historyApiFallback: true,
         contentBase: distPath,
-        compress: true,
         hot: true,
         open: true,
         port: 10000,
@@ -118,11 +118,11 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new CopyWebpackPlugin([{from: "static"}]),
+        new CopyWebpackPlugin([ { from: "static" } ]),
         new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
         new MiniCssExtractPlugin({
             filename: "css/[name].[hash].css",
-            chunkFilename: "[id].[hash].css"
+            chunkFilename: "[id].css"
         }),
         new HtmlWebpackPlugin({
             hash: true,
@@ -131,8 +131,10 @@ module.exports = {
             title: "TSX",
             template: "index.ejs", //Name of template in ./src
             filename: "index.html", //Name of file in ./dist/
-            favicon: "favicon.ico"
+            favicon: "favicon.ico",
+            publicPath: "./"
         }),
-        pluginsMode()
+        new webpack.HotModuleReplacementPlugin(),
+        ...pluginsMode()
     ]
 };

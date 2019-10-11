@@ -73,37 +73,42 @@ export let siteStatusList = [
     {
         icon: require("../../assets/db-icon1.png"),
         name: "近30天高危攻击",
-        count: "0次",
+        count: 0,
+        unit: '次',
         compare: "对比30天前",
         compareUp: true,
         compareCount: "0"
     }, {
         icon: require("../../assets/db-icon2.png"),
         name: "近30天拦截攻击",
-        count: "0次",
+        count: 0,
+        unit: '次',
         compare: "对比30天前",
         compareUp: true,
-        compareCount: "0"
+        compareCount: 0
     }, {
         icon: require("../../assets/db-icon3.png"),
         name: "近30天可疑文件",
-        count: "0个",
+        count: 0,
+        unit: '个',
         compare: "对比30天前",
-        compareUp: true,
-        compareCount: "0"
+        compareUp: false,
+        compareCount: 0
     }, {
         icon: require("../../assets/db-icon4.png"),
         name: "近30天黑客人数",
-        count: "0次",
+        count: 0,
+        unit: '人',
         compare: "对比30天前",
         compareUp: true,
-        compareCount: "0"
+        compareCount: 0
     }, {
         icon: require("../../assets/db-icon5.png"),
         name: "站点丢失",
-        count: "0次",
+        count: 0,
+        unit: '次',
         compare: "历史丢失次数",
         compareUp: undefined,
-        compareCount: "0次"
+        compareCount: 0
     }
 ];

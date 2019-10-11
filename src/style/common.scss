@@ -1,4 +1,5 @@
 /*声明 WebFont*/
+
 @import './mixin.scss';
 
 html *,
@@ -16,6 +17,7 @@ body {
   overflow: hidden;
 }
 
+/*asdasdas*/
 @mixin noFloat {
   
   zoom: 1;
@@ -43,4 +45,13 @@ body {
 
 .textCenter {
   text-align: center
+}
+
+
+.commonPagination {
+  text-align: right;
+  
+  .ant-pagination-total-text {
+    float: left;
+  }
 }

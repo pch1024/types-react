@@ -3,112 +3,82 @@
     .box {
       height: 150px;
       background-color: white;
-      border: 1px solid #DCDFF0;
-      padding: 20px 20px 0;
-      margin-bottom: 20px;
-
-      .icon {
-        float: left;
-        display: inline-block;
-        width: 56px;
-        height: 56px;
-        margin-bottom: calc(150px - 20px - 56px - 40px);
-        border-radius: 50%;
-
-        img {
-          display: inline-block;
-          width: 100%;
-          height: auto;
-          padding: 16px;
-          //background-color: #FF9A2B;
-        }
-      }
-
-      .nameCount {
-        float: left;
-        display: inline-block;
-        width: calc(100% - 56px);
-        //height: 56px;
-        margin-bottom: 20px;
-
-        p {
-          margin: 0;
-          text-align: right;
-
-          &:last-child {
-            font-size: 20px;
-          }
-        }
-      }
-
-      .compare {
-        clear: both;
-        width: 100%;
-        height: 40px;
-        line-height: 40px;
-        border-top: 2px solid #DCDFF0;
-
-        > span:last-child {
-          float: right;
-        }
-      }
-
-      .colorRed {
-        color: #F46C6C;
-        vertical-align: text-bottom;
-      }
-
-      .colorGreen {
-        color: #15DB81;
-        vertical-align: text-bottom;
-      }
-    }
-
-    @mixin box($color) {
-      background-color: white;
-      border: 1px solid $color;
-      padding: 10px 20px 0;
-      margin-bottom: 20px;
-      border-radius: 6px;
-      height: 150px;
-      .icon {
-        height: 48px;
-        text-align: center;
-
-        img {
-          height: 44px;
-          width: 48px;
-
-        }
-      }
+      padding: 16px;
+      margin-bottom: 16px;
+      position: relative;
+      font-size: 14px;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+      border-radius: 2px;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-content: center;
+      
       p {
         margin: 0;
-        text-align: center;
+        line-height: 1.5;
+        color: #666;
+        vertical-align: text-bottom;
+        
+        small {
+          color: #999;
+        }
       }
-      .stateText {
-        font-size: 20px;
-        font-weight: bold;
-        color: $color;
+      
+      .icon {
+        position: absolute;
+        right: 16px;
+        top: 16px;
+        width: 32px;
+        height: 32px;
+        font-size: 32px;
+        border-radius: 50%;
       }
-      .lost {
-        text-align: center;
-        color: $color;
-        height: 40px;
-        line-height: 40px;
-        border-top: 2px solid #DCDFF0;
+      
+      .count {
+        color: black;
+        padding-bottom: 16px;
+        
+        span {
+          font-size: 30px;
+        }
+      }
+      
+      .colorRed {
+        color: #F46C6C;
+      }
+      
+      .colorGreen {
+        color: #15DB81;
       }
     }
-
-
-    .safetyBox {
+    
+    @mixin box($color) {
+      align-items: center;
+      text-align: center;
+      .stateTextWebsiteLost {
+        color: $color;
+      }
+      .stateTextRisk {
+        color: $color;
+        font-weight: bold;
+        line-height: 38px;
+        letter-spacing: 0.6px;
+        font-size: 28px;
+      }
+      
+    }
+    
+    .safety {
       @include box(#15DB81)
     }
-
-    .warningBox {
+    
+    .warning {
+      border: 1px solid #F5222D;
       @include box(#F5222D)
     }
   }
-
+  
   #protect {
     width: 100%;
     height: 500px;
@@ -116,11 +86,11 @@
     text-align: center;
     line-height: 500px;
   }
-
+  
   .attackLogContent > .content {
     padding: 10px;
   }
-
+  
   .tableCenter {
     text-align: center !important;
   }

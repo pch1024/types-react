@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import {Icon} from "antd";
+import { Icon } from "antd";
 import "../style/panel.scss";
 
 export default function Panel(props): React.ReactElement {
-    console.log(props);
+//    console.log(props);
     let [height, setHeight] = React.useState("0");
     let [collapsed, setCollapsed] = React.useState(false);
     let bodyElement: (HTMLDivElement | null) = null;
@@ -14,7 +14,7 @@ export default function Panel(props): React.ReactElement {
     function onRenderContent(el): void {
         if (el) {
             if (props.closeContent) {
-                el.style.height = collapsed ? "0" : `${height}px`;
+                el.style.height = collapsed ? "0" : `${ height }px`;
                 setHeight(el.scrollHeight);
             }
 
@@ -26,7 +26,7 @@ export default function Panel(props): React.ReactElement {
     function closeContent(): void {
         if (bodyElement) {
             setCollapsed(!collapsed);
-            bodyElement.style.height = collapsed ? "0" : `${height}px`;
+            bodyElement.style.height = collapsed ? "0" : `${ height }px`;
         }
     }
 
@@ -37,36 +37,37 @@ export default function Panel(props): React.ReactElement {
 
     return (
         <div
-            className={[props.className, "panel"].join(" ")}
-            style={props.style}
-            ref={(el): void => {
+            className={ [props.className, "panel"].join(" ") }
+            style={ props.style }
+            ref={ (el): void => {
                 panelElement = el;
-            }}>
-            {/* 面板头部*/}
+            } }>
+            {/* 面板头部*/ }
             <div className="header">
-                <span className="title">{props.title}</span>
+                <span className="title">{ props.title }</span>
                 <span className="opts">
-                    {props.moreLink && (
-                        <a href={props.moreLink}>更多</a>
-                    )}
-                    {props.closeContent && (
+                    { props.moreLink && (
+                        <a href={ props.moreLink }>更多</a>
+                    ) }
+                    { props.closeContent && (
                         <span
                             key="closeContent"
                             className="closeContent"
-                            onClick={closeContent}
-                        ><Icon type={collapsed ? "down" : "up"}/></span>
-                    )}
-                    {props.removePanel && (
+                            onClick={ closeContent }
+                        ><Icon type={ collapsed ? "down" : "up" }/></span>
+                    ) }
+                    { props.removePanel && (
                         <span
                             key="removePanel"
                             className="removePanel"
-                            onClick={removePanel}
+                            onClick={ removePanel }
                         ><Icon type="delete"/></span>
-                    )}
+                    ) }
                 </span>
             </div>
-            {/*面板主体*/}
-            <div className="content" ref={onRenderContent}>{
+            {/*面板主体*/ }
+            <div className="content"
+                 ref={ onRenderContent }>{
                 props.children
             }</div>
         </div>

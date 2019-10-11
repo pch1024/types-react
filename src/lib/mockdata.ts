@@ -136,7 +136,7 @@ for (let i = 0; i < 10; i++) {
         time: +new Date() + i,
         attackAddress: "/test/index.js",
         attackType: "xss",
-        attackOrigin: "北京",
+        attackSource: "北京",
         attackLevel: "low"
     });
 }

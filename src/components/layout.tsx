@@ -1,21 +1,23 @@
 import * as React from "react";
+import { ReactElement, useCallback, useMemo, useState } from "react";
 import * as PropTypes from "prop-types";
 import { Menu, Icon, Avatar, Select, Dropdown, Breadcrumb } from "antd";
 
-import "@/style/layout.scss";
 // 导航菜单数据
 import { menuList, pathList } from "@/lib/router";
 // 站点应用数据
 import { appList } from "@/lib/mockdata";
-import { useMemo, useState } from "react";
-
+// 面包屑导航组件
 import MyBreadcrumb from "@/components/breadcrumb";
-
-function Layout(props): React.ReactElement {
+// 样式表
+import "@/style/layout.scss";
+import { Link } from "react-router-dom";
+// 核心组件
+const Layout = (props): ReactElement => {
     console.log("Layout", props);
 
     // 菜单节点嵌套生成器
-    function MyMenuItem(menuList): React.ReactElement {
+    const MyMenuItem = useCallback(menuList => {
         return menuList.map(menu => {
             if (menu.hidden) return "";
             if (menu.children && menu.children.length > 0) {
@@ -34,26 +36,25 @@ function Layout(props): React.ReactElement {
             } else {
                 return (
                     <Menu.Item key={ menu.key }>
-                        { !!menu.icon && <Icon type={ menu.icon }/> }
-                        <span>{ menu.name }</span>
+                        <Link to={ menu.key }>
+                            { !!menu.icon && <Icon type={ menu.icon }/> }
+                            <span>{ menu.name }</span>
+                        </Link>
                     </Menu.Item>
                 );
             }
         });
-    }
-
-    MyMenuItem.propTypes = PropTypes.array;
+    }, [menuList]);
 
     // 站点应用切换
-    function onAppSelectChange(value): void {
+    function onChangeAppSelect(value): void {
         console.log(`selected ${ value }`);
     }
 
     // 点击导航菜单
     function onClickMenu(e: { key: string }): void {
         console.log("onClickMenu", e);
-        // props.history.push({ pathname: e.keyPath.reverse().join('') });
-        props.history.push({ pathname: e.key });
+//        props.history.push({ pathname: e.key });
     }
 
     // 菜单栏收缩
@@ -62,24 +63,31 @@ function Layout(props): React.ReactElement {
         return !(str && str === "close");
     });
 
+    // 面包屑导航显示状态
+    const miniMenuShow = pathList[props.match.path] && pathList[props.match.path].length >= 2;
+    // 面包屑导航
+    const miniMenu = pathList[props.match.path] || [];
+
+    // 主题
+    const [theme, setTheme] = useState<any>("dark");
 
     return useMemo(() => (
         <>
             {/* 主屏左侧栏 */ }
-            <div className="layout-left"
+            <div className={ ["layout-left", theme].join(" ") }
                  style={ { width: menuCollapsed ? 80 : 240 } }>
                 {/* logo */ }
                 <div className="layout-logo">
-                    <p>{ menuCollapsed ? "授权" : "授权系统" }</p>
+                    <p>{ menuCollapsed ? "系统" : "Web应用安全智能防护系统" }</p>
                 </div>
                 {/* 导航菜单 */ }
                 <div className="layout-menu">
                     <Menu
+                        theme={ theme }
                         inlineCollapsed={ menuCollapsed }
                         style={ { border: "none" } }
-                        selectedKeys={ [props.location.pathname] }
-                        onClick={ onClickMenu }
-                        defaultOpenKeys={ pathList[props.location.pathname] }
+                        selectedKeys={ [props.match.path] }
+                        defaultOpenKeys={ pathList[props.match.path] }
                         mode="inline">
                         { MyMenuItem(menuList) }
                     </Menu>
@@ -104,7 +112,7 @@ function Layout(props): React.ReactElement {
                         showSearch
                         style={ { width: "200px" } }
                         placeholder="请输入站点应用名称搜索"
-                        onChange={ onAppSelectChange }
+                        onChange={ onChangeAppSelect }
                         defaultValue={ [appList[0].id] }>
                         { appList.map(app => (
                             <Select.Option key={ app.id }>{ app.name }</Select.Option>
@@ -113,6 +121,9 @@ function Layout(props): React.ReactElement {
                     <Dropdown
                         overlay={
                             <Menu>
+
+                                <Menu.Item onClick={ () => setTheme(theme === "light" ? "dark" : "light") }
+                                           className="textCenter">切换主题</Menu.Item>
                                 <Menu.Item className="textCenter">修改资料</Menu.Item>
                                 <Menu.Item className="textCenter">修改密码</Menu.Item>
                                 <Menu.Item className="textCenter">后台管理</Menu.Item>
@@ -130,12 +141,18 @@ function Layout(props): React.ReactElement {
                         </span>
                     </Dropdown>
                 </div>
+
                 {/* 面包蟹导航 */ }
 
-                <MyBreadcrumb { ...props }/>
+                {
+                    miniMenuShow &&
+                    <MyBreadcrumb list={ miniMenu }/>
+                }
 
                 {/* 主屏内容区域 */ }
-                <div className="layout-main">
+
+                <div className="layout-main"
+                     style={ { height: miniMenuShow ? "calc(100% - 114px)" : "calc(100% - 64px)" } }>
                     { props.children }
                     {/* 主屏底部栏站点备案信息 */ }
                     <div className="layout-footer">
@@ -146,9 +163,9 @@ function Layout(props): React.ReactElement {
                 </div>
             </div>
         </>
-    ), [menuCollapsed, props]);
+    ), [menuCollapsed, props, theme]);
 
-}
+};
 
 Layout.propTypes = {
     history: PropTypes.object,

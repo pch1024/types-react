@@ -1,9 +1,11 @@
 .panel {
   width: 100%;
   height: auto;
-  border: 1px solid #DCDFF0;
   margin-bottom: 20px;
   background-color: white;
+  border: 1px solid #EBEFF4;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.05);
+  border-radius: 2px;
 
   > .content {
     overflow: hidden;

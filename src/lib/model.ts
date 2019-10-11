@@ -37,7 +37,7 @@ export const attackDetailsTableColumns = [
     },
     {
         title: "攻击来源",
-        dataIndex: "attackOrigin"
+        dataIndex: "attackSource"
     },
     {
         title: "危险等级",
@@ -76,6 +76,6 @@ export interface attackDetailsTableDataType {
     time: number,
     attackAddress: string,
     attackType: string,
-    attackOrigin: string,
+    attackSource: string,
     attackLevel: string
 }

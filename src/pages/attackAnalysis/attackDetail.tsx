@@ -1,170 +1,145 @@
 import * as React from "react";
-import {
-    useEffect,
-    useState,
-    ReactElement,
-    createElement,
-    useCallback
-} from "react";
-import {
-    DatePicker,
-    Select,
-    Input,
-    Divider,
-    Button,
-    Radio,
-    Icon,
-    Table, Pagination, Row, Col
-} from "antd";
-import {
-    AttackType,
-    attackDetailsTableData
-} from "@/lib/mockdata";
-import {
-    attackDetailsTableColumns,
-    attackDetailsTableDataType
-} from "@/lib/model";
+import { useMemo } from "react";
+import { Icon, Button, Row, Col } from "antd";
+import hljs from "highlight.js";
 
+import "@/style/code.css";
+import "@/style/AttackDetail.scss";
 
-import "@/style/attackDetail.scss";
+const AttackDetail = () => {
 
-const AttackDetail = (): ReactElement => {
-    console.log("AttackDetail props");
-    // 检索项
-    let [searchData, setSearchData] = useState({
-        time: "90",
-        startTime: "",
-        endTime: "",
-        attackType: "",
-        attackLevel: null
-    });
-
-    // 攻击类型
-    let [levelAndType, setLevelAndType] = useState<any>([]);
-
-    // 事件监听
-    function onChange(date, dateString): void {
-        console.log(date, dateString);
-    }
-
-    // 挂载与更新
-    useEffect((): void => {
-        function asyncAPI(): void {
-            setLevelAndType(AttackType.data);
+    let attackData = {
+        time: {
+            name: "受攻击时间",
+            value: +new Date()
+        },
+        file: {
+            name: "受攻击文件",
+            value: "/usr/share/nginx/html/vulnerabilities/upload/index.php"
+        },
+        attackType: {
+            name: "攻击类型",
+            value: "xss"
+        },
+        attackIP: {
+            name: "攻击 IP",
+            value: "60.267.88.179"
+        },
+        attackCount: {
+            name: "攻击次数",
+            value: 100
+        },
+        requestMethod: {
+            name: "请求方法",
+            value: "POST"
+        },
+        requestAddress: {
+            name: "请求地址",
+            value: "/apache-tomcat-7.0.65/webapps/vulns/004-command-1.jspcmd=cp+/etc/passwd+/tmp/"
+        },
+        clientUA: {
+            name: "客户端 UA",
+            value: "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36"
         }
 
-        setTimeout(asyncAPI, 1000);
-    }, [levelAndType]);
-    /**
-     * 表格数据变更逻辑：
-     *
-     * tableData {
-     *  list 展示数据 异步变化
-     *  pageIndex 数据页码 变化
-     *  total 数据总量 异步变化
-     * }
-     *
-     * tableColumns   数据模型 固定不变
-     */
-    const [tableData, setTableData] = useState<attackDetailsTableDataType[] | []>([]);
-    const [tableDataTotal, setTableDataTotal] = useState(0);
-    const [tablePageIndex, setTablePageIndex] = useState(1);
-    const [tableLoading, setTableLoading] = useState(true);
+    };
+    let otherData = {
+        option: {
+            name: "请求参数",
+            value: `{
+        key: "/AppManage",
+        name: "应用管理",
+        icon: "appstore",
+        children: [
+            {
+                key: "/AppList",
+                name: "应用列表",
+                component: NotFound
+            },
+            {
+                key: "/AppInfo",
+                name: "应用信息管理",
+                component: NotFound
+            }
+        ]
+    }`
+        },
+        header: {
+            name: "请求头",
+            value: `"header": {
+"content-length": "113",
+"host": "180.76.166.133",
+"connection": "close",
+"content-type": "application/x-www-form-urlencoded; charset=utf-8",
+"cache-control": "no
+`
+        },
+        badCode: {
+            name: "产生漏洞代码",
+            value: `java.lang.NullPointerException: 
+            Attempt to invoke virtual method 'java.lang.String 
+            com.supoin.gpslibrary.Applic
+`
+        },
+        cookie: {
+            name: "COOKIE",
+            value: `JSESSIONID=80F8F0E2092E2399DE81AA1885860EE1; 
+            JSESSIONID=AB0FB209DB37B53F4FA269CE971E03AB; 
+            PHPSESSID=d9qnainmhip10k983ecn2lk7d7; security=impossible`
+        }
 
-    // 模拟异步 API
-    const asyncAPI = useCallback(() => {
-        setTableData(attackDetailsTableData);
-        setTableDataTotal(50);
-        setTableLoading(false);
-    }, []);
+    };
 
-    useEffect(() => {
-        setTimeout(asyncAPI, 1000);
-    }, []);
-
-    // 事件监听：表格页码变化
-    const onChangeTablePage = useCallback((page, pageSize) => {
-        console.log("onChangeTablePage:", page, pageSize);
-        setTablePageIndex(page);
-        setTableLoading(true);
-        setTimeout(asyncAPI, 1000);
-    }, []);
-
-    // 事件监听：表格变化
-    const onChangeTable = useCallback((pagination, filters, sorter) => {
-        console.log("onChangeTable:", pagination, filters, sorter);
-    }, []);
+    const reColorCode = div => {
+        div && hljs.highlightBlock(div);
+    };
 
 
-    return React.useMemo((): ReactElement => (
-        <div className="attackDetail">
-            <div className="option">
-                {/* 攻击时间*/ }
-                <span>时间：</span>
-                <DatePicker.RangePicker style={ { width: 240 } }
-                                        onChange={ onChange }/>
-                <Divider type="vertical"/>
-                <Radio.Group value={ searchData.time }
-                             buttonStyle="solid">
-                    <Radio.Button value="30">30天</Radio.Button>
-                    <Radio.Button value="90">90天</Radio.Button>
-                    <Radio.Button value="all">所有</Radio.Button>
-                </Radio.Group>
-                {/*<DatePicker.RangePicker style={ { width: 240 } } onChange={ onChange }/>*/ }
-                <Divider type="vertical"/>
-
-                <br className="tagBr"/>
-                <br className="tagBr"/>
-
-                <span>类型：</span>
-                <Select
-                    style={ { width: 240 } }
-                    placeholder="攻击类型"
-                    onChange={ onChange }>
-                    { levelAndType.map((item, i): ReactElement => createElement(Select.Option, {
-                        key: i,
-                        value: item.attack_type_id
-                    }, item.attack_type_name)) }
-                </Select>
-                <Divider type="vertical"/>
-                {/* 受攻击文件路径*/ }
-                <Input style={ { width: 186 } }
-                       placeholder="受攻击文件路径"
-                       suffix={ <Icon type="search"/> }/>
-
-                <span style={ {
-                    position: "absolute",
-                    top: 0,
-                    right: 0
-                } }>
-                    <Button icon="download"
+    return useMemo(() => {
+        return (
+            <div className="AttackDetail">
+                <div className="title">
+                    <span className="icon"><Icon type="file-unknown"/></span>
+                    <span>攻击详情</span>
+                    <Button className="btn"
                             type="primary"
-                            style={ { float: "right" } }>报表下载</Button>
-                </span>
+                            icon="plus"> 加入白名单</Button>
+                </div>
+                <Row className="list"
+                     gutter={ 16 }>
+                    {
+                        Object.values(attackData).map(({ name, value }, index) => {
+                            return <Col key={ index }
+                                        md={ 24 }
+                                        lg={ 12 }
+                                        className="list-item">
+                                <span>{ name }:</span>
+                                <span>{ value }</span>
+                            </Col>;
+                        })
+                    }
+                </Row>
+                <div className="other">
+                    {
+                        Object.values(otherData).map(({ name, value }, index) => {
+                            return (
+                                <div className="other-item"
+                                     key={ index }>
+                                    <span className="other-title">{ name }: </span>
+                                    <span className="other-value">
+                                        <pre>
+                                            <code ref={ reColorCode }>{ value }</code>
+                                        </pre>
+                                    </span>
+                                </div>
+                            );
+                        })
+                    }
+                </div>
             </div>
-            <div className="tableBox">
-                {
-                    // @ts-ignore
-                    createElement(Table, {
-                        loading: tableLoading,
-                        columns: attackDetailsTableColumns,
-                        dataSource: tableData,
-                        onChange: onChangeTable,
-                        pagination: false
-                    })
-                }
-                <br/>
-                <Pagination
-                    className="commonPagination"
-                    defaultCurrent={ tablePageIndex }
-                    total={ tableDataTotal }
-                    onChange={ onChangeTablePage }
-                    showTotal={ total => `共 ${ total } 条` }/>
-            </div>
-        </div>
-    ), [searchData, levelAndType, tableDataTotal, tableData, tableLoading]);
-
+        );
+    }, []);
 };
 
-AttackDetail.propTypes = {};
 export default AttackDetail;
+

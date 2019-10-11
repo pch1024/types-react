@@ -1,36 +1,26 @@
 import * as React from "react";
-import { useEffect, useMemo, useState } from "react";
 import { Breadcrumb } from "antd";
-import { pathList, pathToName } from "@/lib/router";
 import * as PropTypes from "prop-types";
+import { useMemo } from "react";
+import { pathToName } from "@/lib/router";
 
 /* 面包蟹导航 */
 
-const MyBreadcrumb = (props) => {
-    console.log(props.match);
-    console.log(pathList[props.match.path]);
-    let [show, setShow] = useState(false);
+const MyBreadcrumb = (props) => useMemo(() => {
+    return (
+        <Breadcrumb className="pageRouter">
+            {
+                props.list.map((path, index) => {
+                    return <Breadcrumb.Item key={ index }>{ pathToName[path] }</Breadcrumb.Item>;
+                })
+            }
+        </Breadcrumb>
+    );
+}, [props.list]);
 
-    useEffect(() => {
-        setShow(pathList[props.match.path].length >= 2);
-    }, [props]);
-
-    return useMemo(() => {
-        return (
-            <Breadcrumb className="pageRouter"
-                        style={ { display: show ? "block" : "none" } }>
-                {
-                    pathList[props.match.path].map((path, index) => {
-                        return <Breadcrumb.Item key={ index }>{ pathToName[path] }</Breadcrumb.Item>;
-                    })
-                }
-            </Breadcrumb>
-        );
-    }, [show]);
-};
 
 MyBreadcrumb.propTypes = {
-    location: PropTypes.object
+    list: PropTypes.array
 };
 
 export default MyBreadcrumb;

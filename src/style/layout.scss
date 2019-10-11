@@ -2,7 +2,6 @@
 
 .layout-left {
   float: left;
-  //width: 240px;
   transition: width 200ms;
   height: 100%;
   border-right: 1px solid #efefef;
@@ -19,7 +18,7 @@
   height: 64px;
   border-bottom: 1px solid #efefef;
   text-align: right;
-  box-shadow: #eee 1px 2px 3px;
+  box-shadow: #e8e8e8 2px 1px 3px;
   
   .btn {
     height: 64px;
@@ -48,9 +47,9 @@
 }
 
 .layout-main {
-  @include scrollbar;
+  @include scrollbar(rgba(0, 0, 0, 0.3));
   height: calc(100% - 114px);
-  background: #efefef;
+  background: #F0F2F5;
   padding: 16px 16px 0;
   overflow: auto;
   
@@ -70,23 +69,39 @@
 .layout-logo {
   height: 64px;
   padding: 10px;
-  border-bottom: 1px solid #efefef;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   
   p {
     height: 44px;
     line-height: 44px;
     text-align: center;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     color: #1890ff;
   }
+  
 }
 
+.layout-left.dark {
+  background-color: #002140;
+  
+  .layout-logo {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    
+    p {
+      color: white;
+    }
+  }
+}
+
+
 .layout-menu {
-  @include scrollbar;
+  @include scrollbar(rgba(255, 255, 255, 0.3));
   height: calc(100% - 64px);
   overflow-x: hidden;
   overflow-y: auto;
+  user-select:none;
 }
 
 .pageRouter {

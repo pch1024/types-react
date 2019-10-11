@@ -33,16 +33,16 @@ export const menuList = [
         icon: "pie-chart",
         children: [
             {
-                key: "/AttackDetail",
+                key: "/AttackList",
                 name: "攻击列表",
-                component: AttackDetail
-            },
-            {
-                hidden:true,
-                key: "/AttackList/:id",
-                name: "攻击详情",
-//                component: () => import("@/pages/attackAnalysis/attackList")
-                component: AttackList
+                component: AttackList,
+                hiddenChildren: [
+                    {
+                        key: "/AttackList/:id",
+                        name: "攻击详情",
+                        component: AttackDetail
+                    }
+                ]
             },
             {
                 key: "/AttackType",
@@ -170,48 +170,47 @@ interface RouteType {
     children?: RouteType[];
 }
 
-function createAsyncRoutes<T>(menu: T): T[] {
-    const newArr: T[] = [];
-    const loop = (list): void => {
-        list.forEach((item): void => {
-            if (item.children && item.children.length > 0) {
-                loop(item.children);
-            } else newArr.push(item);
-        });
-    };
-    loop(menu);
-    return newArr;
-}
+function getDataByMenuList(menuList) {
+    // 异步路由表
+    let asyncRouteList: any[] = [];
+    // 异步路由链
+    let asyncRouteChain = {};
+    // 异步路由路径和名称对照表
+    let asyncRoutePathToName = {};
+    // 递归遍历
+    const loop = (menuList, parentChain = []): void => {
+        menuList.forEach((menu): void => {
+            // 常规路由
+            asyncRoutePathToName[menu.key] = menu.name;
+            asyncRouteChain[menu.key] = parentChain.concat(menu.key);
 
-function createPathList(list, path = {}): object {
-    const loop = (list, parentPath = []): void => {
-        list.forEach((item): void => {
-            path[item.key] = parentPath.concat(item.key);
-            if (item.children && item.children.length > 0) {
-                loop(item.children, path[item.key]);
+            // 隐藏路由
+            menu.hiddenChildren && menu.hiddenChildren.forEach(route => {
+                asyncRouteChain[route.key] = parentChain.concat(menu.key).concat(route.key);
+                asyncRoutePathToName[route.key] = route.name;
+            });
+
+            if (menu.children && menu.children.length > 0) {
+                // 递归该项
+                loop(menu.children, asyncRouteChain[menu.key]);
+            } else {
+                // 常规路由
+                asyncRouteList.push(menu);
+                // 隐藏路由
+                menu.hiddenChildren && asyncRouteList.push(...menu.hiddenChildren);
             }
         });
     };
-    loop(list);
-    return path;
-}
-
-export const pathList = createPathList(menuList);
-
-export const asyncRoutes: any[] = createAsyncRoutes(menuList);
-
-function getPathToName(menu) {
-    const obj = {};
-    const loop = (list): void => {
-        list.forEach((item): void => {
-            obj[item.key] = item.name;
-            if (item.children && item.children.length > 0) {
-                loop(item.children);
-            }
-        });
+    loop(menuList);
+    return {
+        asyncRouteList, asyncRouteChain, asyncRoutePathToName
     };
-    loop(menu);
-    return obj;
 }
 
-export const pathToName = getPathToName(menuList);
+const dataByMenuList = getDataByMenuList(menuList);
+
+export const pathList = dataByMenuList.asyncRouteChain;
+
+export const asyncRoutes = dataByMenuList.asyncRouteList;
+
+export const pathToName = dataByMenuList.asyncRoutePathToName;

@@ -1,0 +1,20 @@
+.AttackList {
+  padding: 24px 32px 24px;
+  background: white;
+  
+  .option {
+    position: relative;
+    padding-bottom: 24px;
+    background-color: white;
+  }
+  
+  .tableBox {
+  }
+  
+  .tagBr {
+    display: none;
+    @media screen and (max-width: 1460px) {
+      display: block;
+    }
+  }
+}

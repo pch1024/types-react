@@ -20,15 +20,15 @@
   <meta name="x5-orientation" content="portrait" />
   <meta name="x5-page-mode" content="app" />
   <!-- preload -->
-  <link href="./plugins/pace.css" rel=preload as=style>
-  <link href="./plugins/pace.min.js" rel=preload as=script>
+  <link href="<%= htmlWebpackPlugin.options.publicPath %>plugins/pace.css" rel=preload as=style>
+  <link href="<%= htmlWebpackPlugin.options.publicPath %>plugins/pace.min.js" rel=preload as=script>
   <!-- static -->
-  <link rel="stylesheet" href="./plugins/pace.css">
-  <script src="./plugins/pace.min.js"></script>
+  <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.publicPath %>plugins/pace.css">
+  <script src="<%= htmlWebpackPlugin.options.publicPath %>plugins/pace.min.js"></script>
 
   <!--[if IE]>
     <script> alert("ie") </script>
-    <script src="./plugins/html5.min.js"></script>
+    <script src="<%= htmlWebpackPlugin.options.publicPath %>plugins/html5.min.js"></script>
   <![endif]-->
 
   <!-- assets -->

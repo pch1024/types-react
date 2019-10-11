@@ -27,10 +27,10 @@ import {
 } from "@/lib/model";
 
 
-import "@/style/AttackList.scss";
+import "@/style/AttackSource.scss";
 
-const AttackList = (): ReactElement => {
-    console.log("AttackList props");
+const AttackSource = (): ReactElement => {
+    console.log("AttackSource props");
     // 检索项
     let [searchData, setSearchData] = useState({
         time: "90",
@@ -98,7 +98,7 @@ const AttackList = (): ReactElement => {
 
 
     return React.useMemo((): ReactElement => (
-        <div className="AttackList">
+        <div className="AttackSource">
             <div className="option">
                 {/* 攻击时间*/ }
                 <span>时间：</span>
@@ -167,5 +167,5 @@ const AttackList = (): ReactElement => {
 
 };
 
-AttackList.propTypes = {};
-export default AttackList;
+AttackSource.propTypes = {};
+export default AttackSource;

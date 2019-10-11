@@ -5,9 +5,9 @@ import { siteStatusList } from "./config";
 
 
 const SiteState = (props): React.ReactElement => {
-    let colors = [ "#065381", "#30B3DD", "#5DD5D4", "#FF9A2B", "#E34856" ];
-    let [ data, setData ] = React.useState(siteStatusList);
-    let [ load, setLoad ] = React.useState(true);
+    let colors = ["#065381", "#30B3DD", "#5DD5D4", "#FF9A2B", "#E34856"];
+    let [data, setData] = React.useState(siteStatusList);
+    let [load, setLoad] = React.useState(true);
 
     React.useEffect((): void => {
         console.log("SiteState");
@@ -17,61 +17,70 @@ const SiteState = (props): React.ReactElement => {
             setLoad(false);
         }
 
-    }, [ props ]);
+    }, [props]);
 
 
     return (
-        <Row gutter={ 16 } className="siteStatus">
+        <Row gutter={ 16 }
+             className="siteStatus">
             {
                 data.map((item, index): JSX.Element => {
                     return (
-                        <Col sm={ 24 } md={ 24 } lg={ 8 } xl={ 8 } xxl={ 4 } key={ index }>
+                        <Col sm={ 24 }
+                             md={ 24 }
+                             lg={ 8 }
+                             xl={ 8 }
+                             xxl={ 4 }
+                             key={ index }>
                             <div className="box">
+                                {/*图标绝对定位*/ }
+                                <div className="icon">
+                                    <Icon type="rocket"
+                                          theme="twoTone"
+                                          twoToneColor={ colors[index] }/>
+                                </div>
                                 <Spin spinning={ load }>
-                                    <div className="icon" style={ { backgroundColor: colors[index] } }>
-                                        <img src={ item.icon } alt="ICON"/>
-                                    </div>
-                                    <div className="nameCount">
-                                        <p>{ item.name }</p>
-                                        <p>{ item.count }</p>
-                                    </div>
-                                    <div className="compare">
-                                        <span>{ item.compare }</span>
-                                        <span>
+                                    {/*标题 数量 比较关系 垂直居中分布*/ }
+                                    <p className="name">{ item.name }</p>
+                                    <p className="count">
+                                        <span>{ item.count }</span>&nbsp;&nbsp;{ item.unit }
+                                    </p>
+                                    <p>
+                                        <small>{ item.compare }</small>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span className={ item.compareUp ? "colorRed" : "colorGreen" }>
                                             {
                                                 item.compareUp !== undefined &&
-                                                React.createElement(Icon, {
-                                                    type: item.compareUp ? "caret-up" : "caret-down",
-                                                    className: item.compareUp ? "colorRed" : "colorGreen"
-                                                })
+                                                <Icon type={ item.compareUp ? "rise" : "fall" }/>
                                             }
+                                            &nbsp;&nbsp;
                                             { item.compareCount }
                                         </span>
-                                    </div>
+                                    </p>
                                 </Spin>
                             </div>
                         </Col>
                     );
                 })
             }
-            <Col sm={ 24 } md={ 24 } lg={ 8 } xl={ 8 } xxl={ 4 }>
-                <div className={ props.siteSafetyState ? "safetyBox" : "warningBox" }>
+            <Col sm={ 24 }
+                 md={ 24 }
+                 lg={ 8 }
+                 xl={ 8 }
+                 xxl={ 4 }>
+                <div className={ props.siteSafetyState ? "box safety" : "box warning" }>
                     <Spin spinning={ load }>
-                        <div className="state">
-                            <div className="icon">
-                                <img
-                                    alt="icon"
-                                    src={ props.siteSafetyState ?
-                                        require("../../assets/db-safe.png") :
-                                        require("../../assets/db-risk.png") }
-                                />
-                            </div>
-                            <p>您当前的应用</p>
-                            <p className="stateText">{ props.siteSafetyState ? "非常安全" : "存在风险" }</p>
+                        <div className="img">
+                            <img
+                                alt="icon"
+                                src={ props.siteSafetyState ?
+                                    require("../../assets/db-safe.png") :
+                                    require("../../assets/db-risk.png") }
+                            />
                         </div>
-                        <div className="lost">
-                            { props.lostSiteState ? "未发现站点丢失" : "站点已丢失" }
-                        </div>
+                        <p>您当前的应用</p>
+                        <p className="stateTextRisk">{ props.siteSafetyState ? "非常安全" : "存在风险" }</p>
+                        <p className='stateTextWebsiteLost'>{ props.lostSiteState ? "未发现站点丢失" : "站点已丢失" } </p>
                     </Spin>
                 </div>
             </Col>

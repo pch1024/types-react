@@ -26,7 +26,7 @@ export default (
             { asyncRoutes.map((route, i): ReactElement => (
                 <Route
                     key={ i }
-                    strict
+                    exact
                     path={ route.key }
                     render={ (props): ReactElement => {
                         document.title = route.name;
