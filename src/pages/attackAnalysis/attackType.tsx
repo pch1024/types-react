@@ -1,86 +1,64 @@
-
 import * as React from "react";
 import {
     useEffect,
     useState,
     ReactElement,
     createElement,
-    useCallback
+    useCallback, useMemo
 } from "react";
 import {
     DatePicker,
     Select,
-    Input,
     Divider,
-    Button,
     Radio,
-    Icon,
-    Table, Pagination, Row, Col
+    Table, Pagination
 } from "antd";
 import {
-    AttackType,
-    attackDetailsTableData
+    AttackType as AttackTypes,
+    attackTypeTableData
 } from "@/lib/mockdata";
 import {
-    attackDetailsTableColumns,
-    attackDetailsTableDataType
+    attackTypeTableColumns,
+    attackTypeTableDataType
 } from "@/lib/model";
 
 
-import "@/style/AttackList.scss";
+import "@/style/attackAnalysis.scss";
 
-const AttackList = (): ReactElement => {
-    console.log("AttackList props");
-    // 检索项
+const AttackType = (): ReactElement => {
+    console.log("AttackType props");
+    // 状态管理：检索项
     let [searchData, setSearchData] = useState({
         time: "90",
-        startTime: "",
-        endTime: "",
-        attackType: "",
-        attackLevel: null
+        rangeTime: "",
+        attackType: ""
     });
-
-    // 攻击类型
+    // 状态管理：攻击类型
     let [levelAndType, setLevelAndType] = useState<any>([]);
-
-    // 事件监听
-    function onChange(date, dateString): void {
-        console.log(date, dateString);
-    }
-
-    // 挂载与更新
-    useEffect((): void => {
-        function asyncAPI(): void {
-            setLevelAndType(AttackType.data);
-        }
-
-        setTimeout(asyncAPI, 1000);
-    }, [levelAndType]);
-    /**
-     * 表格数据变更逻辑：
-     *
-     * tableData {
-     *  list 展示数据 异步变化
-     *  pageIndex 数据页码 变化
-     *  total 数据总量 异步变化
-     * }
-     *
-     * tableColumns   数据模型 固定不变
-     */
-    const [tableData, setTableData] = useState<attackDetailsTableDataType[] | []>([]);
+    // 状态管理：表格数据
+    const [tableData, setTableData] = useState<attackTypeTableDataType[] | []>([]);
+    // 状态管理：表格数据总量
     const [tableDataTotal, setTableDataTotal] = useState(0);
+    // 状态管理：表格页码
     const [tablePageIndex, setTablePageIndex] = useState(1);
+    // 状态管理：表格加载状态
     const [tableLoading, setTableLoading] = useState(true);
 
-    // 模拟异步 API
+    // 生命周期：模拟异步 API
     const asyncAPI = useCallback(() => {
-        setTableData(attackDetailsTableData);
+        setLevelAndType(AttackTypes.data);
+        setTableData(attackTypeTableData);
         setTableDataTotal(50);
         setTableLoading(false);
     }, []);
-
+    // 生命周期：挂浏览器
     useEffect(() => {
         setTimeout(asyncAPI, 200);
+    }, []);
+
+    // 事件监听: 通用
+    const onChange = useCallback((date, dateString) => {
+        console.log(date, dateString);
     }, []);
 
     // 事件监听：表格页码变化
@@ -88,7 +66,7 @@ const AttackList = (): ReactElement => {
         console.log("onChangeTablePage:", page, pageSize);
         setTablePageIndex(page);
         setTableLoading(true);
-        setTimeout(asyncAPI, 1000);
+        setTimeout(asyncAPI, 200);
     }, []);
 
     // 事件监听：表格变化
@@ -96,28 +74,28 @@ const AttackList = (): ReactElement => {
         console.log("onChangeTable:", pagination, filters, sorter);
     }, []);
 
-
-    return React.useMemo((): ReactElement => (
-        <div className="AttackList">
+    // 核心组件
+    return createElement("div", {
+            className: "AttackType"
+        },
+        useMemo(() => (
             <div className="option">
-                {/* 攻击时间*/ }
-                <span>时间：</span>
+                <span>攻击时间：</span>
                 <DatePicker.RangePicker style={ { width: 240 } }
                                         onChange={ onChange }/>
                 <Divider type="vertical"/>
-                <Radio.Group value={ searchData.time }
+                <Radio.Group defaultValue={ searchData.time }
                              buttonStyle="solid">
                     <Radio.Button value="30">30天</Radio.Button>
                     <Radio.Button value="90">90天</Radio.Button>
                     <Radio.Button value="all">所有</Radio.Button>
                 </Radio.Group>
-                {/*<DatePicker.RangePicker style={ { width: 240 } } onChange={ onChange }/>*/ }
+
                 <Divider type="vertical"/>
-
                 <br className="tagBr"/>
                 <br className="tagBr"/>
 
-                <span>类型：</span>
+                <span>攻击类型：</span>
                 <Select
                     style={ { width: 240 } }
                     placeholder="攻击类型"
@@ -127,45 +105,28 @@ const AttackList = (): ReactElement => {
                         value: item.attack_type_id
                     }, item.attack_type_name)) }
                 </Select>
-                <Divider type="vertical"/>
-                {/* 受攻击文件路径*/ }
-                <Input style={ { width: 186 } }
-                       placeholder="受攻击文件路径"
-                       suffix={ <Icon type="search"/> }/>
 
-                <span style={ {
-                    position: "absolute",
-                    top: 0,
-                    right: 0
-                } }>
-                    <Button icon="download"
-                            type="primary"
-                            style={ { float: "right" } }>报表下载</Button>
-                </span>
             </div>
-            <div className="tableBox">
-                {
-                    // @ts-ignore
-                    createElement(Table, {
-                        loading: tableLoading,
-                        columns: attackDetailsTableColumns,
-                        dataSource: tableData,
-                        onChange: onChangeTable,
-                        pagination: false
-                    })
-                }
-                <br/>
-                <Pagination
-                    className="commonPagination"
-                    defaultCurrent={ tablePageIndex }
-                    total={ tableDataTotal }
-                    onChange={ onChangeTablePage }
-                    showTotal={ total => `共 ${ total } 条` }/>
-            </div>
-        </div>
-    ), [searchData, levelAndType, tableDataTotal, tableData, tableLoading]);
-
+        ), [searchData, levelAndType]),
+        useMemo(() => [
+            // @ts-ignore
+            createElement(Table, {
+                loading: tableLoading,
+                columns: attackTypeTableColumns,
+                dataSource: tableData,
+                onChange: onChangeTable,
+                pagination: false
+            }),
+            createElement(Pagination, {
+                className: "commonPagination",
+                defaultCurrent: tablePageIndex,
+                total: tableDataTotal,
+                onChange: onChangeTablePage,
+                showTotal: total => `共 ${ total } 条`
+            })
+        ], [tableLoading, attackTypeTableColumns, tableData, tablePageIndex, tableDataTotal])
+    );
 };
 
-AttackList.propTypes = {};
-export default AttackList;
+AttackType.propTypes = {};
+export default AttackType;

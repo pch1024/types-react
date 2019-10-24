@@ -37,9 +37,9 @@ function Index(): ReactElement {
     // 模拟异步更新图表
     const updateChart = useCallback(() => {
         const deepClone = (i: object): object => JSON.parse(JSON.stringify(i));
-        chartEmpty.title.text = "1 暂无数据" + (+new Date());
+//        chartEmpty.title.text = "1 暂无数据" + (+new Date());
         setProtectData(deepClone(chartEmpty));
-        chartEmpty.title.text = "2 暂无数据" + (+new Date());
+//        chartEmpty.title.text = "2 暂无数据" + (+new Date());
         setAttackTypeData(deepClone(chartEmpty));
     }, []);
 

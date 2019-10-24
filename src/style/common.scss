@@ -1,5 +1,4 @@
 /*声明 WebFont*/
-
 @import './mixin.scss';
 
 html *,
@@ -49,6 +48,7 @@ body {
 
 
 .commonPagination {
+  padding-top: 16px;
   text-align: right;
   
   .ant-pagination-total-text {

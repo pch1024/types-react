@@ -4,7 +4,7 @@ import { Icon, Button, Row, Col } from "antd";
 import hljs from "highlight.js";
 
 import "@/style/code.css";
-import "@/style/AttackDetail.scss";
+import "@/style/attackAnalysis.scss";
 
 const AttackDetail = () => {
 

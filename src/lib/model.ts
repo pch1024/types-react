@@ -2,17 +2,37 @@ import { createElement } from "react";
 import { Link } from "react-router-dom";
 import * as Moment from "moment";
 
+const emptyIMG = require("@/assets/chart-line.png");
+
 export const chartEmpty = {
     title: {
-        text: "暂无数据",
+        text: "\n\n \n\n \n\n暂无数据",
         show: true,
         textStyle: {
-            color: "grey",
+            color: "#cccccc",
             fontSize: 20
         },
         left: "center",
         top: "center"
-    }
+    },
+    graphic: [
+        {
+            type: "image",
+            id: "logo",
+            right: "center",
+            top: "center",
+//            position: [-100, -60],
+            z: -10,
+            bounding: "raw",
+            style: {
+                image: emptyIMG,
+                width: 100,
+                height: 100
+            }
+        }
+
+
+    ]
 };
 
 export const attackLevelName = {
@@ -20,6 +40,29 @@ export const attackLevelName = {
     medium: "中危",
     low: "低危"
 };
+
+export const attackTypeTableColumns = [
+    {
+        title: "攻击类型",
+        dataIndex: "attackType"
+    },
+    {
+        title: "攻击次数",
+        dataIndex: "attackCount"
+    },
+    {
+        title: "末次攻击时间",
+        dataIndex: "lastAttackTime",
+        render: text => Moment(text).format("YYYY-MM-DD HH:mm:ss")
+    },
+    {
+        title: "相关操作",
+        render: function (text, record, index) {
+            return createElement(Link, { to: "/AttackType/" + record.id }, "查看详情");
+        }
+    }
+
+];
 
 export const attackDetailsTableColumns = [
     {
@@ -70,7 +113,7 @@ export const attackDetailsTableColumns = [
 ];
 
 
-export interface attackDetailsTableDataType {
+export interface attackListTableDataType {
     id: number,
     key: string,
     time: number,
@@ -78,4 +121,12 @@ export interface attackDetailsTableDataType {
     attackType: string,
     attackSource: string,
     attackLevel: string
+}
+
+export interface attackTypeTableDataType {
+    id: number,
+    key: string,
+    attackType: string,
+    attackCount: number,
+    lastAttackTime: number
 }

@@ -1,5 +1,5 @@
 // 站点应用数据
-import { attackDetailsTableDataType } from "@/lib/model";
+import { attackListTableDataType, attackTypeTableDataType } from "@/lib/model";
 
 interface AppT {
     id: string;
@@ -119,18 +119,28 @@ export const AttackType = {
             "attack_type": "struts",
             "attack_type_id": 16,
             "attack_type_name": "Struts2 框架漏洞"
-        } ],
+        }],
     "valid": true
 };
 
 export default { appList: _appList() };
 
 
-
-const _attackDetailsTableData: attackDetailsTableDataType[] = [];
+// 攻击分析-攻击列表
+const _attackListTableData: attackListTableDataType[] = [];
+// 攻击分析-攻击类型
+const _attackTypeTableData: attackTypeTableDataType[] = [];
 
 for (let i = 0; i < 10; i++) {
-    _attackDetailsTableData.push({
+    _attackTypeTableData.push({
+        key: "" + i,
+        id: i,
+        attackType: "xss",
+        attackCount: 100,
+        lastAttackTime: +new Date() + i
+    });
+
+    _attackListTableData.push({
         key: "" + i,
         id: i,
         time: +new Date() + i,
@@ -141,4 +151,5 @@ for (let i = 0; i < 10; i++) {
     });
 }
 
-export const attackDetailsTableData = _attackDetailsTableData;
+export const attackListTableData = _attackListTableData;
+export const attackTypeTableData = _attackTypeTableData;

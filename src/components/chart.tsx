@@ -4,13 +4,14 @@ import echarts from "echarts";
 import { useRef, createElement, ReactElement, useMemo } from "react";
 
 
+type Callback = () => void;
+
 const Chart = (props): ReactElement => {
 
     // 挂载节点
     const chartDom = useRef(null);
 
     // 生命钩子函数
-    type Callback = () => void;
     React.useEffect((): Callback => {
         // 加载状态
         function showLoading(instance): void {

@@ -19,15 +19,15 @@ import {
 } from "antd";
 import {
     AttackType,
-    attackDetailsTableData
+    attackListTableData
 } from "@/lib/mockdata";
 import {
     attackDetailsTableColumns,
-    attackDetailsTableDataType
+    attackListTableDataType
 } from "@/lib/model";
 
 
-import "@/style/AttackList.scss";
+import "@/style/attackAnalysis.scss";
 
 const AttackList = (): ReactElement => {
     console.log("AttackList props");
@@ -67,14 +67,14 @@ const AttackList = (): ReactElement => {
      *
      * tableColumns   数据模型 固定不变
      */
-    const [tableData, setTableData] = useState<attackDetailsTableDataType[] | []>([]);
+    const [tableData, setTableData] = useState<attackListTableDataType[] | []>([]);
     const [tableDataTotal, setTableDataTotal] = useState(0);
     const [tablePageIndex, setTablePageIndex] = useState(1);
     const [tableLoading, setTableLoading] = useState(true);
 
     // 模拟异步 API
     const asyncAPI = useCallback(() => {
-        setTableData(attackDetailsTableData);
+        setTableData(attackListTableData);
         setTableDataTotal(50);
         setTableLoading(false);
     }, []);

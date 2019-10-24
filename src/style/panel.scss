@@ -8,6 +8,8 @@
   border-radius: 2px;
 
   > .content {
+  
+    width: 100%;
     overflow: hidden;
     will-change: height;
     transition: height 200ms;

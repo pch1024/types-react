@@ -6,6 +6,7 @@ import EmailWaring from "@/pages/emailWaring";
 import AttackDetail from "@/pages/attackAnalysis/attackDetail";
 import AttackList from "@/pages/attackAnalysis/attackList";
 import { ReactElement } from "react";
+import AttackType  from "@/pages/attackAnalysis/attackType";
 
 export const routes = [
     {
@@ -47,7 +48,14 @@ export const menuList = [
             {
                 key: "/AttackType",
                 name: "攻击类型",
-                component: NotFound
+                component: AttackType,
+                hiddenChildren: [
+                    {
+                        key: "/AttackType/:id",
+                        name: "攻击详情",
+                        component: AttackDetail
+                    }
+                ]
             },
             {
                 key: "/AttackFile",
@@ -92,7 +100,7 @@ export const menuList = [
     },
     {
         key: "/LingXeReport",
-        name: "灵蜥报告",
+        name: "安全报告",
         icon: "fund",
         component: LingXeReport
     },
